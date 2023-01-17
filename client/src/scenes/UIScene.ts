@@ -93,21 +93,6 @@ class UIScene extends Scene {
     );
     this.add.existing(this.exitButton);
 
-    let save = new TextButton(
-      this,
-      10,
-      this.exitButton.height + 10,
-      window.Config.localisation.game.save,
-      {
-        fontSize: "25px",
-        fontFamily: "game-font",
-      },
-      () => {
-        API.saveGame(window.Dungeon.dungeonName + "-" + new Date().getTime());
-      }
-    );
-    this.add.existing(save);
-
     if (!window.Dungeon) {
       this.scene.stop("scene-ui");
     }

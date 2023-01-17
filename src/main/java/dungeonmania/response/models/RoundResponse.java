@@ -1,5 +1,8 @@
 package dungeonmania.response.models;
 
+/**
+ * DO NOT CHANGE THIS FILE
+ */
 public class RoundResponse {
     private double deltaPlayerHealth;
     private double deltaEnemyHealth;

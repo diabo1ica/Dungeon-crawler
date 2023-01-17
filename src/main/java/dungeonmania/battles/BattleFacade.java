@@ -10,6 +10,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.enemies.Mercenary;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -35,9 +36,16 @@ public class BattleFacade {
             playerBuff = player.applyBuff(playerBuff);
         } else {
             for (BattleItem item : player.getInventory().getEntities(BattleItem.class)) {
+                if (item instanceof Potion) continue;
                 playerBuff = item.applyBuff(playerBuff);
                 battleItems.add(item);
             }
+        }
+
+        List<Mercenary> mercs = game.getMap().getEntities(Mercenary.class);
+        for (Mercenary merc : mercs) {
+            if (!merc.isAllied()) continue;
+            playerBuff = BattleStatistics.applyBuff(playerBuff, merc.getBattleStatistics());
         }
 
         // 2. Battle the two stats
