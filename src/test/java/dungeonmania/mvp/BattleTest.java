@@ -242,6 +242,7 @@ public class BattleTest {
         assertEquals(0, mercCount);
 
         postBattleResponse = controller.tick(Direction.RIGHT);
+        postBattleResponse = controller.tick(Direction.RIGHT);
         entities = postBattleResponse.getEntities();
         spiderCount = TestUtils.countEntityOfType(entities, "spider");
         zombieCount = TestUtils.countEntityOfType(entities, "zombie_toast");

@@ -3,6 +3,9 @@ package dungeonmania.response.models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DO NOT CHANGE THIS FILE
+ */
 public final class BattleResponse {
     private final String enemy;
     private final double initialPlayerHealth;

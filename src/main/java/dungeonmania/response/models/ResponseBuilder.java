@@ -11,6 +11,9 @@ import dungeonmania.entities.Interactable;
 import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.util.NameConverter;
 
+/**
+ * DO NOT CHANGE THIS FILE
+ */
 public class ResponseBuilder {
     public static DungeonResponse getDungeonResponse(Game game) {
         List<EntityResponse> entityResponse = new ArrayList<>();

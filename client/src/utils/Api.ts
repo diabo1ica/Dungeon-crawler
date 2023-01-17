@@ -137,42 +137,6 @@ export const API = {
       "Error POST /game/new: DungeonManiaController::ctor(...)",
       null
     ),
-  saveGame: async (name: string): Promise<void> => {
-    if (currentResponse) await currentResponse;
-    return currentResponse = evaluateResponse(
-      axios.post(
-        URL + "/api/game/save/",
-        {},
-        {
-          params: {
-            name,
-          },
-        }
-      ),
-      "Error POST /game/save: DungeonManiaController::saveGame(...)",
-      null
-    );
-  },
-  loadGame: (name: string): Promise<Dungeon | null> =>
-    evaluateResponse(
-      axios.post(
-        URL + "/api/game/load/",
-        {},
-        {
-          params: {
-            name,
-          },
-        }
-      ),
-      "Error POST /game/load: DungeonManiaController::loadGame(...)",
-      null
-    ),
-  allGames: (): Promise<string[]> =>
-    evaluateResponse(
-      axios.get(URL + "/api/games/all/", {}),
-      "Error GET /games/all/: DungeonManiaController::allGames(...)",
-      []
-    ),
   interact: async (entityId: string): Promise<Dungeon | null> => {
     if (currentResponse) await currentResponse;
     return (currentResponse = evaluateResponse(
@@ -254,26 +218,6 @@ export const API = {
             }
         ),
         "Error POST /game/rewind: DungeonManiaController::rewindGame(...)",
-        null
-    );
-  },
-  generate: async (xStart: integer, yStart: integer, xEnd: integer, yEnd: integer, configName : String): Promise<Dungeon | null> => {
-    if (currentResponse) await currentResponse;
-    return currentResponse = evaluateResponse(
-        axios.post(
-            URL + "/api/game/new/generate/",
-            {},
-            {
-              params: {
-                xStart,
-                yStart,
-                xEnd,
-                yEnd,
-                configName
-              },
-            }
-        ),
-        "Error POST /game/new/generate: DungeonManiaController::generateDungeon(...)",
         null
     );
   },

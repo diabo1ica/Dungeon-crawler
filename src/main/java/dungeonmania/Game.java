@@ -10,7 +10,6 @@ import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Bomb;
-import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.exceptions.InvalidActionException;
@@ -25,13 +24,15 @@ public class Game {
     private GameMap map;
     private Player player;
     private BattleFacade battleFacade;
-    private int initialTreasureCount;
     private EntityFactory entityFactory;
     private boolean isInTick = false;
     public static final int PLAYER_MOVEMENT = 0;
     public static final int PLAYER_MOVEMENT_CALLBACK = 1;
     public static final int AI_MOVEMENT = 2;
     public static final int AI_MOVEMENT_CALLBACK = 3;
+    public static final int ITEM_LONGEVITY_UPDATE = 4;
+
+    private ComparableCallback currentAction = null;
 
     private int tickCount = 0;
     private PriorityQueue<ComparableCallback> sub = new PriorityQueue<>();
@@ -49,7 +50,6 @@ public class Game {
         this.tickCount = 0;
         player = map.getPlayer();
         register(() -> player.onTick(tickCount), PLAYER_MOVEMENT, "potionQueue");
-        initialTreasureCount = map.getEntities(Treasure.class).size();
     }
 
     public Game tick(Direction movementDirection) {
@@ -109,7 +109,7 @@ public class Game {
             throw new InvalidActionException("Entity cannot be interacted");
         }
         registerOnce(
-            () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerBuildsItem");
+            () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteracts");
         tick();
         return this;
     }
@@ -133,6 +133,10 @@ public class Game {
     }
 
     public void unsubscribe(String id) {
+        if (this.currentAction != null && id.equals(this.currentAction.getId())) {
+            this.currentAction.invalidate();
+        }
+
         for (ComparableCallback c : sub) {
             if (id.equals(c.getId())) {
                 c.invalidate();
@@ -146,12 +150,19 @@ public class Game {
     }
 
     public int tick() {
+        PriorityQueue<ComparableCallback> nextTickSub = new PriorityQueue<>();
         isInTick = true;
-        sub.forEach(s -> s.run());
+        while (!sub.isEmpty()) {
+            currentAction = sub.poll();
+            currentAction.run();
+            if (currentAction.isValid()) {
+                nextTickSub.add(currentAction);
+            }
+        }
         isInTick = false;
-        sub.addAll(addingSub);
+        nextTickSub.addAll(addingSub);
         addingSub = new PriorityQueue<>();
-        sub.removeIf(s -> !s.isValid());
+        sub = nextTickSub;
         tickCount++;
         // update the weapons/potions duration
         return tickCount;
@@ -201,6 +212,10 @@ public class Game {
         entityFactory = factory;
     }
 
+    public int getCollectedTreasureCount() {
+        return player.getCollectedTreasureCount();
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -216,9 +231,4 @@ public class Game {
     public void setBattleFacade(BattleFacade battleFacade) {
         this.battleFacade = battleFacade;
     }
-
-    public int getInitialTreasureCount() {
-        return initialTreasureCount;
-    }
-
 }

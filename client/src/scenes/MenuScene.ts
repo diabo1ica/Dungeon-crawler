@@ -16,7 +16,6 @@ class MenuScene extends Scene {
   private title: Phaser.GameObjects.Text;
   private subtitle: Phaser.GameObjects.Text;
   private subtitle2: Phaser.GameObjects.Text;
-  private loadGame: TextButton;
   private newGame: TextButton;
   private exitGame: TextButton;
   private credits: TextButton;
@@ -229,49 +228,11 @@ class MenuScene extends Scene {
     this.add.existing(this.newGame);
     this.newGame.setX(-this.newGame.width);
 
-    this.loadGame = new TextButton(
-      this,
-      10,
-      this.renderer.height / 4 + this.newGame.height + 20 + 75,
-      window.Config.localisation.main_menu.buttons.load_game,
-      {
-        fontSize: "25px",
-        fontFamily: "main_menu-font",
-      },
-      async () => {
-        const saveGames = await API.allGames();
-    
-        const { value, isConfirmed } = await Swal.fire({
-          title: "Choose a game to load",
-          input: "select",
-          inputOptions: Object.fromEntries(
-            saveGames.map((x) => {
-              const [name, time] = x.split("-");
-              const timeDate = new Date(Number(time));
-              const localeDate = timeDate.toLocaleString();
-    
-              return [x, name + " (" + localeDate + ")"];
-            })
-          ),
-          inputPlaceholder: "Choose a game to load",
-          showCancelButton: true,
-        });
-    
-        if (isConfirmed && value != "Choose a game to load" && value) {
-          window.Dungeon = await API.loadGame(value);
-          this.scene.start("scene-game");
-        }
-      }
-    );
-    this.add.existing(this.loadGame);
-    this.loadGame.setX(-this.loadGame.width);
-
     this.credits = new TextButton(
       this,
       10,
       this.renderer.height / 4 +
         this.newGame.height +
-        this.loadGame.height +
         10 +
         20 +
         75,
@@ -295,7 +256,6 @@ class MenuScene extends Scene {
       10,
       this.renderer.height / 4 +
         this.newGame.height +
-        this.loadGame.height +
         this.credits.height +
         30 +
         20 +
@@ -319,7 +279,7 @@ class MenuScene extends Scene {
     this.tweens.add({
       delay: 3500,
       duration: 1000,
-      targets: [this.newGame, this.loadGame, this.credits, this.exitGame],
+      targets: [this.newGame, this.credits, this.exitGame],
       x: 10,
       ease: "Bounce",
     });

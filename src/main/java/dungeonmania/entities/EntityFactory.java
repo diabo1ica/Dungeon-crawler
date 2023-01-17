@@ -45,7 +45,8 @@ public class EntityFactory {
             for (int j = player.getY() - radius; j < player.getY() + radius; j++) {
                 if (Position.calculatePositionBetween(player, new Position(i, j)).magnitude() > radius) continue;
                 Position np = new Position(i, j);
-                if (!map.canMoveTo(dummySpider, np)) continue;
+                if (!map.canMoveTo(dummySpider, np) || np.equals(player)) continue;
+                if (map.getEntities(np).stream().anyMatch(e -> e instanceof Enemy)) continue;
                 availablePos.add(np);
             }
         }
@@ -98,9 +99,12 @@ public class EntityFactory {
     public Mercenary buildMercenary(Position pos) {
         double mercenaryHealth = config.optDouble("mercenary_health", Mercenary.DEFAULT_HEALTH);
         double mercenaryAttack = config.optDouble("mercenary_attack", Mercenary.DEFAULT_ATTACK);
+        double allyAttack = config.optDouble("ally_attack", Mercenary.DEFAULT_HEALTH);
+        double allyDefense = config.optDouble("ally_defense", Mercenary.DEFAULT_ATTACK);
         int mercenaryBribeAmount = config.optInt("bribe_amount", Mercenary.DEFAULT_BRIBE_AMOUNT);
         int mercenaryBribeRadius = config.optInt("bribe_radius", Mercenary.DEFAULT_BRIBE_RADIUS);
-        return new Mercenary(pos, mercenaryHealth, mercenaryAttack, mercenaryBribeAmount, mercenaryBribeRadius);
+        return new Mercenary(
+            pos, mercenaryHealth, mercenaryAttack, mercenaryBribeAmount, mercenaryBribeRadius, allyAttack, allyDefense);
     }
 
     public Bow buildBow() {

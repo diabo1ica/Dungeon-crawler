@@ -168,6 +168,143 @@ public class MercenaryTest {
         assertEquals(0, res.getBattles().size());
     }
 
+    @Test
+    @Tag("12-8")
+    @DisplayName("Testing a mercenary is bribed next to the player, then follow the player")
+    public void allyMovementStick() {
+        /**
+         * W W W W W W E
+         * W T P - - M -
+         * W W W W W W -
+         *
+         * bribe_radius = 100
+         * bribe_amount = 1
+         */
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_mercenaryTest_allyMovementStick", "c_mercenaryTest_allyMovementStick");
+
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+
+        // pick up treasure
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(4, 1), getMercPos(res));
+
+        // Wait until the mercenary is next to the player
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(3, 1), getMercPos(res));
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(2, 1), getMercPos(res));
+
+        // achieve bribe - success
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertEquals(0, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(2, 1), getMercPos(res));
+
+        // Ally follows the player
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(2, 1), getMercPos(res));
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(2, 1), getPlayerPos(res));
+        assertEquals(new Position(1, 1), getMercPos(res));
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(3, 1), getPlayerPos(res));
+        assertEquals(new Position(2, 1), getMercPos(res));
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(4, 1), getPlayerPos(res));
+        assertEquals(new Position(3, 1), getMercPos(res));
+    }
+
+    @Test
+    @Tag("12-9")
+    @DisplayName("Testing an allied mercenary finds the player, then follow the player")
+    public void allyMovementFollow() {
+        /**
+         * W W W - W W W W W E
+         * P T W - - - - M W -
+         * - W W - W W W W W -
+         *
+         * bribe_radius = 100
+         * bribe_amount = 1
+         */
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_mercenaryTest_allyMovementFollow", "c_mercenaryTest_allyMovementFollow");
+
+        String mercId = TestUtils.getEntitiesStream(res, "mercenary").findFirst().get().getId();
+
+        // pick up treasure
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(6, 1), getMercPos(res));
+
+        // achieve bribe - success
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertEquals(0, TestUtils.getInventory(res, "treasure").size());
+        assertEquals(new Position(5, 1), getMercPos(res));
+
+        // Mercenary uses dijkstra to find the player
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(4, 1), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(3, 1), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(3, 2), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(3, 3), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(2, 3), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(1, 3), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(0, 3), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(0, 2), getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(new Position(1, 1), getPlayerPos(res));
+        assertEquals(new Position(0, 1), getMercPos(res));
+
+        // Ally follows the player
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(new Position(0, 1), getPlayerPos(res));
+        assertEquals(new Position(1, 1), getMercPos(res));
+
+        res = dmc.tick(Direction.DOWN);
+        assertEquals(new Position(0, 2), getPlayerPos(res));
+        assertEquals(new Position(0, 1), getMercPos(res));
+
+        res = dmc.tick(Direction.DOWN);
+        assertEquals(new Position(0, 3), getPlayerPos(res));
+        assertEquals(new Position(0, 2), getMercPos(res));
+    }
+
+    private Position getPlayerPos(DungeonResponse res) {
+        return TestUtils.getEntities(res, "player").get(0).getPosition();
+    }
+
     private Position getMercPos(DungeonResponse res) {
         return TestUtils.getEntities(res, "mercenary").get(0).getPosition();
     }

@@ -7,6 +7,7 @@ import java.util.Queue;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
@@ -28,6 +29,8 @@ public class Player extends Entity implements Battleable {
     private Potion inEffective = null;
     private int nextTrigger = 0;
 
+    private int collectedTreasureCount = 0;
+
     private PlayerState state;
 
     public Player(Position position, double health, double attack) {
@@ -40,6 +43,10 @@ public class Player extends Entity implements Battleable {
                 BattleStatistics.DEFAULT_PLAYER_DAMAGE_REDUCER);
         inventory = new Inventory();
         state = new BaseState(this);
+    }
+
+    public int getCollectedTreasureCount() {
+        return collectedTreasureCount;
     }
 
     public boolean hasWeapon() {
@@ -85,6 +92,7 @@ public class Player extends Entity implements Battleable {
     }
 
     public boolean pickUp(Entity item) {
+        if (item instanceof Treasure) collectedTreasureCount++;
         return inventory.add((InventoryItem) item);
     }
 
