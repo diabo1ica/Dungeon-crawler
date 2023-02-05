@@ -8,19 +8,20 @@ image: sneakypatriki/cs2511-gradle:latest
 
 stages:
   - lint
-  - checks
+  - tests
 
 lint:
   stage: lint
-  script: 
+  needs: []
+  script:
     - gradle checkstyleMain
     - gradle checkstyleTest
   allow_failure: true
 
 test:
-  stage: checks
+  stage: tests
+  needs: []
   script:
     - gradle test
     - bash extract_coverage.sh
   coverage: '/\d+%/'
-
