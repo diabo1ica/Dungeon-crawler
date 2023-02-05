@@ -14,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SpiderTest {
-
     @Test
     @Tag("9-1")
     @DisplayName("Test basic movement of spiders")
@@ -41,7 +40,7 @@ public class SpiderTest {
         for (int i = 0; i <= 20; ++i) {
             res = dmc.tick(Direction.UP);
             assertEquals(movementTrajectory.get(nextPositionElement),
-            TestUtils.getEntities(res, "spider").get(0).getPosition());
+                    TestUtils.getEntities(res, "spider").get(0).getPosition());
             nextPositionElement++;
             if (nextPositionElement == 8) {
                 nextPositionElement = 0;

@@ -32,6 +32,7 @@ public class App implements SparkApplication {
             super(message);
         }
     }
+
     private static volatile Map<String, DungeonManiaController> sessionStates = new HashMap<>();
 
     private static synchronized DungeonManiaController getDungeonManiaController(Request request) {
@@ -59,8 +60,8 @@ public class App implements SparkApplication {
         }
     }
 
-    private static <T> GenericResponseWrapper<T> callUsingSessionAndArgument(
-        Request request, Function<DungeonManiaController, T> runnable) {
+    private static <T> GenericResponseWrapper<T> callUsingSessionAndArgument(Request request,
+            Function<DungeonManiaController, T> runnable) {
         try {
             DungeonManiaController dmc = getDungeonManiaController(request);
             synchronized (dmc) {
@@ -101,9 +102,8 @@ public class App implements SparkApplication {
         }, gson::toJson);
 
         Spark.post("/api/game/new/", "application/json", (request, response) -> {
-            return callUsingSessionAndArgument(
-                request,
-                (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
+            return callUsingSessionAndArgument(request,
+                    (dmc) -> dmc.newGame(request.queryParams("dungeonName"), request.queryParams("configName")));
         }, gson::toJson);
 
         Spark.post("/api/game/tick/item/", "application/json", (request, response) -> {
@@ -117,9 +117,8 @@ public class App implements SparkApplication {
         }, gson::toJson);
 
         Spark.post("/api/game/tick/movement/", "application/json", (request, response) -> {
-            return callUsingSessionAndArgument(
-                request,
-                (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
+            return callUsingSessionAndArgument(request,
+                    (dmc) -> dmc.tick(Direction.valueOf(request.queryParams("movementDirection").toUpperCase())));
         }, gson::toJson);
 
         Spark.post("/api/game/build/", "application/json", (request, response) -> {

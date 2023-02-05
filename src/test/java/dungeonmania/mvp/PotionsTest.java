@@ -144,8 +144,8 @@ public class PotionsTest {
     @DisplayName("Test invincibility potions do not change spider movement")
     public void invincibilitySpiderMovement() throws InvalidActionException {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_potionsTest_invincibilitySpiderMovement", "c_potionsTest_invincibilitySpiderMovement");
+        DungeonResponse res = dmc.newGame("d_potionsTest_invincibilitySpiderMovement",
+                "c_potionsTest_invincibilitySpiderMovement");
 
         assertEquals(1, TestUtils.getEntities(res, "invincibility_potion").size());
         assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
@@ -171,7 +171,7 @@ public class PotionsTest {
         for (int i = 0; i <= 10; ++i) {
             res = dmc.tick(Direction.RIGHT);
             assertEquals(movementTrajectory.get(nextPositionElement),
-            TestUtils.getEntities(res, "spider").get(0).getPosition());
+                    TestUtils.getEntities(res, "spider").get(0).getPosition());
             nextPositionElement++;
             nextPositionElement = nextPositionElement % 8;
         }
@@ -181,9 +181,7 @@ public class PotionsTest {
     // and will take place the tick following the previous potion wearing off
     @Test
     @Tag("6-8")
-    @DisplayName(
-        "Test when the effects of a 2nd potion are 'queued'"
-    )
+    @DisplayName("Test when the effects of a 2nd potion are 'queued'")
     public void potionQueuing() throws InvalidActionException {
         //  Wall   P_1/2/3    P_4   P_5/6/7/S_9/P_9     S_2     S_3
         //                          S_8/P_8             S_1     S_4

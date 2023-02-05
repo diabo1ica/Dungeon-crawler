@@ -14,37 +14,28 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BuildablesTest {
-
     @Test
     @Tag("5-1")
     @DisplayName("Test IllegalArgumentException is raised when attempting to build an unknown entity - sword")
     public void buildSwordIllegalArgumentException() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        dmc.newGame(
-            "d_BuildablesTest_BuildSwordIllegalArgumentException",
-        "c_BuildablesTest_BuildSwordIllegalArgumentException");
-        assertThrows(IllegalArgumentException.class, () ->
-                dmc.build("sword")
-        );
+        dmc.newGame("d_BuildablesTest_BuildSwordIllegalArgumentException",
+                "c_BuildablesTest_BuildSwordIllegalArgumentException");
+        assertThrows(IllegalArgumentException.class, () -> dmc.build("sword"));
     }
 
     @Test
     @Tag("5-2")
-    @DisplayName(
-        "Test InvalidActionException is raised when the player does not have sufficient items to build a bow or shield"
-    )
+    @DisplayName("Test InvalidActionException is raised when the player "
+            + "does not have sufficient items to build a bow or shield")
     public void buildInvalidActionException() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         dmc.newGame("d_BuildablesTest_BuildInvalidArgumentException", "c_BuildablesTest_BuildInvalidArgumentException");
-        assertThrows(InvalidActionException.class, () ->
-                dmc.build("bow")
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.build("bow"));
 
-        assertThrows(InvalidActionException.class, () ->
-                dmc.build("shield")
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.build("shield"));
     }
 
     @Test
@@ -114,8 +105,8 @@ public class BuildablesTest {
     public void buildShieldWithTreasure() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_BuildablesTest_BuildShieldWithTreasure", "c_BuildablesTest_BuildShieldWithTreasure");
+        DungeonResponse res = dmc.newGame("d_BuildablesTest_BuildShieldWithTreasure",
+                "c_BuildablesTest_BuildShieldWithTreasure");
         assertEquals(0, TestUtils.getInventory(res, "wood").size());
         assertEquals(0, TestUtils.getInventory(res, "treasure").size());
 
@@ -140,14 +131,12 @@ public class BuildablesTest {
 
     @Test
     @Tag("5-6")
-    @DisplayName(
-        "Test responsse buildables parameter is a list of buildables that the player can currently build"
-    )
+    @DisplayName("Test responsse buildables parameter is a list of buildables that the player can currently build")
     public void dungeonResponseBuildables() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_BuildablesTest_DungeonResponseBuildables", "c_BuildablesTest_DungeonResponseBuildables");
+        DungeonResponse res = dmc.newGame("d_BuildablesTest_DungeonResponseBuildables",
+                "c_BuildablesTest_DungeonResponseBuildables");
 
         List<String> buildables = new ArrayList<>();
         assertEquals(buildables, res.getBuildables());

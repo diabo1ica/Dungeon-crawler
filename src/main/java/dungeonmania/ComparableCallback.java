@@ -8,7 +8,6 @@ package dungeonmania;
  * whose entityId is attached to the callback
  */
 public class ComparableCallback implements Comparable<ComparableCallback>, Runnable {
-
     private Runnable r;
     private int v;
     private String entityId; // entityId related to the current runnable
@@ -29,15 +28,20 @@ public class ComparableCallback implements Comparable<ComparableCallback>, Runna
     // run the callback
     @Override
     public void run() {
-        if (isValid) r.run();
-        if (once) invalidate();
+        if (isValid)
+            r.run();
+        if (once)
+            invalidate();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (o.getClass() != this.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (o.getClass() != this.getClass())
+            return false;
         ComparableCallback other = (ComparableCallback) o;
 
         return this.entityId.equals(other.entityId);

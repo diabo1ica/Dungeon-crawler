@@ -15,7 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ZombieTest {
-
     @Test
     @Tag("10-1")
     @DisplayName("Testing zombies movement")
@@ -65,7 +64,8 @@ public class ZombieTest {
         int count = 0;
         assertEquals(0, getZombies(res).size());
         for (int i = 1; i <= 20; ++i) {
-            if (i % 5 == 0) count++;
+            if (i % 5 == 0)
+                count++;
             res = dmc.tick(Direction.UP);
             assertEquals(count, getZombies(res).size());
         }
@@ -76,7 +76,8 @@ public class ZombieTest {
         count = 0;
         assertEquals(0, getZombies(res).size());
         for (int i = 1; i <= 60; ++i) {
-            if (i % 20 == 0) count++;
+            if (i % 20 == 0)
+                count++;
             res = dmc.tick(Direction.UP);
             assertEquals(count, getZombies(res).size());
         }
@@ -93,7 +94,8 @@ public class ZombieTest {
         int count = 0;
         assertEquals(0, getZombies(res).size());
         for (int i = 1; i <= 7; ++i) {
-            if (i % 2 == 0) count = count + 2;
+            if (i % 2 == 0)
+                count = count + 2;
             res = dmc.tick(Direction.UP);
             assertEquals(count, getZombies(res).size());
         }
@@ -104,8 +106,8 @@ public class ZombieTest {
     @DisplayName("Testing zombie toast spawners spawn zombies in cardinally adjacent open squares")
     public void toastSpawnCardinallyAdjacent() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_zombieTest_toastSpawnCardinallyAdjacent", "c_zombieTest_toastSpawnCardinallyAdjacent");
+        DungeonResponse res = dmc.newGame("d_zombieTest_toastSpawnCardinallyAdjacent",
+                "c_zombieTest_toastSpawnCardinallyAdjacent");
 
         Position spawnerPos = TestUtils.getEntities(res, "zombie_toast_spawner").get(0).getPosition();
         List<Position> cardinallyAdjacentSquares = TestUtils.getCardinallyAdjacentPositions(spawnerPos);
@@ -148,9 +150,7 @@ public class ZombieTest {
         String spawnerId = TestUtils.getEntities(res, "zombie_toast_spawner").get(0).getId();
 
         // cardinally adjacent: true, has sword: false
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(spawnerId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(spawnerId));
         assertEquals(1, TestUtils.getEntities(res, "zombie_toast_spawner").size());
 
         // pick up sword
@@ -158,18 +158,14 @@ public class ZombieTest {
         assertEquals(1, TestUtils.getInventory(res, "sword").size());
 
         // cardinally adjacent: false, has sword: true
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(spawnerId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(spawnerId));
         assertEquals(1, TestUtils.getEntities(res, "zombie_toast_spawner").size());
 
         // move right
         res = dmc.tick(Direction.RIGHT);
 
         // cardinally adjacent: true, has sword: true, but invalid_id
-        assertThrows(IllegalArgumentException.class, () ->
-                dmc.interact("random_invalid_id")
-        );
+        assertThrows(IllegalArgumentException.class, () -> dmc.interact("random_invalid_id"));
         // cardinally adjacent: true, has sword: true
         res = assertDoesNotThrow(() -> dmc.interact(spawnerId));
         assertEquals(1, TestUtils.countType(res, "zombie_toast_spawner"));

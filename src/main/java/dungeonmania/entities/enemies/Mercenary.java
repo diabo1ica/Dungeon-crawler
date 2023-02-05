@@ -30,14 +30,8 @@ public class Mercenary extends Enemy implements Interactable {
     private boolean allied = false;
     private boolean isAdjacentToPlayer = false;
 
-    public Mercenary(
-        Position position,
-        double health,
-        double attack,
-        int bribeAmount,
-        int bribeRadius,
-        double allyAttack,
-        double allyDefense) {
+    public Mercenary(Position position, double health, double attack, int bribeAmount, int bribeRadius,
+            double allyAttack, double allyDefense) {
         super(position, health, attack);
         this.bribeAmount = bribeAmount;
         this.bribeRadius = bribeRadius;
@@ -51,7 +45,8 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (allied) return;
+        if (allied)
+            return;
         super.onOverlap(map, entity);
     }
 
@@ -79,7 +74,7 @@ public class Mercenary extends Enemy implements Interactable {
         allied = true;
         bribe(player);
         if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), getPosition()))
-                isAdjacentToPlayer = true;
+            isAdjacentToPlayer = true;
     }
 
     @Override
@@ -88,18 +83,15 @@ public class Mercenary extends Enemy implements Interactable {
         GameMap map = game.getMap();
         Player player = game.getPlayer();
         if (allied) {
-            nextPos = isAdjacentToPlayer
-            ? player.getPreviousDistinctPosition()
-            : map.dijkstraPathFind(getPosition(), player.getPosition(), this);
+            nextPos = isAdjacentToPlayer ? player.getPreviousDistinctPosition()
+                    : map.dijkstraPathFind(getPosition(), player.getPosition(), this);
             if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), nextPos))
                 isAdjacentToPlayer = true;
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             // Move random
             Random randGen = new Random();
             List<Position> pos = getPosition().getCardinallyAdjacentPositions();
-            pos = pos
-                .stream()
-                .filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
+            pos = pos.stream().filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
             if (pos.size() == 0) {
                 nextPos = getPosition();
                 map.moveTo(this, nextPos);
@@ -108,26 +100,31 @@ public class Mercenary extends Enemy implements Interactable {
                 map.moveTo(this, nextPos);
             }
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
-            Position plrDiff = Position.calculatePositionBetween(
-            map.getPlayer().getPosition(), getPosition());
+            Position plrDiff = Position.calculatePositionBetween(map.getPlayer().getPosition(), getPosition());
 
-            Position moveX = (plrDiff.getX() >= 0)
-                ? Position.translateBy(getPosition(), Direction.RIGHT)
-                : Position.translateBy(getPosition(), Direction.LEFT);
-            Position moveY = (plrDiff.getY() >= 0)
-                ? Position.translateBy(getPosition(), Direction.UP)
-                : Position.translateBy(getPosition(), Direction.DOWN);
+            Position moveX = (plrDiff.getX() >= 0) ? Position.translateBy(getPosition(), Direction.RIGHT)
+                    : Position.translateBy(getPosition(), Direction.LEFT);
+            Position moveY = (plrDiff.getY() >= 0) ? Position.translateBy(getPosition(), Direction.UP)
+                    : Position.translateBy(getPosition(), Direction.DOWN);
             Position offset = getPosition();
-            if (plrDiff.getY() == 0 && map.canMoveTo(this, moveX)) offset = moveX;
-            else if (plrDiff.getX() == 0 && map.canMoveTo(this, moveY)) offset = moveY;
+            if (plrDiff.getY() == 0 && map.canMoveTo(this, moveX))
+                offset = moveX;
+            else if (plrDiff.getX() == 0 && map.canMoveTo(this, moveY))
+                offset = moveY;
             else if (Math.abs(plrDiff.getX()) >= Math.abs(plrDiff.getY())) {
-                if (map.canMoveTo(this, moveX)) offset = moveX;
-                else if (map.canMoveTo(this, moveY)) offset = moveY;
-                else offset = getPosition();
+                if (map.canMoveTo(this, moveX))
+                    offset = moveX;
+                else if (map.canMoveTo(this, moveY))
+                    offset = moveY;
+                else
+                    offset = getPosition();
             } else {
-                if (map.canMoveTo(this, moveY)) offset = moveY;
-                else if (map.canMoveTo(this, moveX)) offset = moveX;
-                else offset = getPosition();
+                if (map.canMoveTo(this, moveY))
+                    offset = moveY;
+                else if (map.canMoveTo(this, moveX))
+                    offset = moveX;
+                else
+                    offset = getPosition();
             }
             nextPos = offset;
         } else {
@@ -144,7 +141,8 @@ public class Mercenary extends Enemy implements Interactable {
 
     @Override
     public BattleStatistics getBattleStatistics() {
-        if (!allied) return super.getBattleStatistics();
+        if (!allied)
+            return super.getBattleStatistics();
         return new BattleStatistics(0, allyAttack, allyDefense, 1, 1);
     }
 }

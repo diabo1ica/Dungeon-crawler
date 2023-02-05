@@ -14,9 +14,7 @@ import dungeonmania.map.GameMap;
 
 public class Bomb extends Entity implements InventoryItem {
     public enum State {
-        SPAWNED,
-        INVENTORY,
-        PLACED
+        SPAWNED, INVENTORY, PLACED
     }
 
     public static final int DEFAULT_RADIUS = 1;
@@ -46,9 +44,11 @@ public class Bomb extends Entity implements InventoryItem {
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (state != State.SPAWNED) return;
+        if (state != State.SPAWNED)
+            return;
         if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this)) return;
+            if (!((Player) entity).pickUp(this))
+                return;
             subs.stream().forEach(s -> s.unsubscribe(this));
             map.destroyEntity(this);
         }
@@ -71,16 +71,10 @@ public class Bomb extends Entity implements InventoryItem {
         this.state = State.PLACED;
         List<Position> adjPosList = getPosition().getCardinallyAdjacentPositions();
         adjPosList.stream().forEach(node -> {
-            List<Entity> entities = map.getEntities(node)
-                                        .stream()
-                                        .filter(e -> (e instanceof Switch))
-                                        .collect(Collectors.toList());
-            entities.stream()
-                    .map(Switch.class::cast)
-                    .forEach(s -> s.subscribe(this, map));
-            entities.stream()
-                    .map(Switch.class::cast)
-                    .forEach(s -> this.subscribe(s));
+            List<Entity> entities = map.getEntities(node).stream().filter(e -> (e instanceof Switch))
+                    .collect(Collectors.toList());
+            entities.stream().map(Switch.class::cast).forEach(s -> s.subscribe(this, map));
+            entities.stream().map(Switch.class::cast).forEach(s -> this.subscribe(s));
         });
     }
 
@@ -94,10 +88,9 @@ public class Bomb extends Entity implements InventoryItem {
         for (int i = x - radius; i <= x + radius; i++) {
             for (int j = y - radius; j <= y + radius; j++) {
                 List<Entity> entities = map.getEntities(new Position(i, j));
-                entities = entities.stream()
-                    .filter(e -> !(e instanceof Player))
-                    .collect(Collectors.toList());
-                for (Entity e: entities) map.destroyEntity(e);
+                entities = entities.stream().filter(e -> !(e instanceof Player)).collect(Collectors.toList());
+                for (Entity e : entities)
+                    map.destroyEntity(e);
             }
         }
     }

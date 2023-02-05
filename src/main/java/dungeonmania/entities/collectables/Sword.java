@@ -33,7 +33,8 @@ public class Sword extends Entity implements InventoryItem, BattleItem {
     @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this)) return;
+            if (!((Player) entity).pickUp(this))
+                return;
             map.destroyEntity(this);
         }
     }
@@ -58,12 +59,7 @@ public class Sword extends Entity implements InventoryItem, BattleItem {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return BattleStatistics.applyBuff(origin, new BattleStatistics(
-            0,
-            attack,
-            0,
-            1,
-            1));
+        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, attack, 0, 1, 1));
     }
 
     @Override

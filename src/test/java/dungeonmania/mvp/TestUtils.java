@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 import org.json.JSONObject;
 
 public class TestUtils {
-
     public static List<EntityResponse> getEntities(DungeonResponse res) {
         return res.getEntities();
     }
@@ -37,8 +36,7 @@ public class TestUtils {
 
     public static Stream<EntityResponse> getEntitiesStream(DungeonResponse res, String type) {
         if (type.equals("zombie_toast")) {
-            return res.getEntities().stream()
-                    .filter(it -> it.getType().startsWith(type))
+            return res.getEntities().stream().filter(it -> it.getType().startsWith(type))
                     .filter(it -> !it.getType().startsWith("zombie_toast_spawner"));
         }
         return res.getEntities().stream().filter(it -> it.getType().startsWith(type));
@@ -131,39 +129,30 @@ public class TestUtils {
     }
 
     public static boolean atOrAdjacentTo(int x, int y, int toX, int toY) {
-        return (x == toX || x == toX - 1 || x == toX + 1)
-                && (y == toY || y == toY - 1 || y == toY + 1);
+        return (x == toX || x == toX - 1 || x == toX + 1) && (y == toY || y == toY - 1 || y == toY + 1);
     }
 
     @Deprecated(forRemoval = true)
     public static int countEntitiesOfType(DungeonResponse response, String type) {
-        return response.getEntities()
-                .stream()
-                .filter(e -> e.getType().startsWith(type))
-                .collect(Collectors.toList()).size();
+        return response.getEntities().stream().filter(e -> e.getType().startsWith(type)).collect(Collectors.toList())
+                .size();
     }
 
     public static boolean entityAtPosition(DungeonResponse res, String type, Position pos) {
-        return getEntitiesStream(res, type).anyMatch(
-                it -> it.getPosition().equals(pos));
+        return getEntitiesStream(res, type).anyMatch(it -> it.getPosition().equals(pos));
     }
 
-    public static DungeonResponse newGame(
-            DungeonManiaController dmc, String dungeonName, String gamemode, String configName) {
+    public static DungeonResponse newGame(DungeonManiaController dmc, String dungeonName, String gamemode,
+            String configName) {
         return newGame(dmc, dungeonName, configName);
     }
 
     public static int countEntityOfType(List<EntityResponse> entities, String type) {
         if (type.equals("zombie_toast")) {
-            return entities.stream()
-                    .filter(e -> e.getType().startsWith(type))
-                    .filter(e -> !e.getType().startsWith("zombie_toast_spawner"))
-                    .collect(Collectors.toList()).size();
+            return entities.stream().filter(e -> e.getType().startsWith(type))
+                    .filter(e -> !e.getType().startsWith("zombie_toast_spawner")).collect(Collectors.toList()).size();
         }
-        return entities.stream()
-                .filter(e -> e.getType().startsWith(type))
-                .collect(Collectors.toList())
-                .size();
+        return entities.stream().filter(e -> e.getType().startsWith(type)).collect(Collectors.toList()).size();
     }
 
     public static DungeonResponse genericSpiderSequence(DungeonManiaController controller, String configFile) {
@@ -231,16 +220,13 @@ public class TestUtils {
     }
 
     public static boolean entityResponsesEqual(EntityResponse e1, EntityResponse e2) {
-        return e1.getId().equals(e2.getId())
-                && e1.getType().equals(e2.getType())
+        return e1.getId().equals(e2.getId()) && e1.getType().equals(e2.getType())
                 && e1.getPosition().equals(e2.getPosition());
     }
 
-    public static Map<Position, List<String>> positionMapEntities(
-            List<EntityResponse> ers) {
-        return ers.stream().collect(Collectors.toMap(
-                EntityResponse::getPosition, it -> new ArrayList<>(Collections.singleton(it.getType())),
-                (o, n) -> {
+    public static Map<Position, List<String>> positionMapEntities(List<EntityResponse> ers) {
+        return ers.stream().collect(Collectors.toMap(EntityResponse::getPosition,
+                it -> new ArrayList<>(Collections.singleton(it.getType())), (o, n) -> {
                     o.addAll(n);
                     return o;
                 }));
@@ -252,8 +238,7 @@ public class TestUtils {
     }
 
     public static Map<String, Integer> countItemsInList(List<ItemResponse> irs) {
-        return irs.stream().collect(Collectors.toMap(
-                ItemResponse::getType, it -> 1, Integer::sum));
+        return irs.stream().collect(Collectors.toMap(ItemResponse::getType, it -> 1, Integer::sum));
     }
 
     public static boolean itemListEqual(List<ItemResponse> l1, List<ItemResponse> l2) {

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MercenaryTest {
-
     @Test
     @Tag("12-1")
     @DisplayName("Test mercenary in line with Player moves towards them")
@@ -73,8 +72,7 @@ public class MercenaryTest {
         DungeonResponse res = dmc.newGame("d_mercenaryTest_evadeWall", "c_mercenaryTest_evadeWall");
 
         res = dmc.tick(Direction.RIGHT);
-        assertTrue(new Position(4, 1).equals(getMercPos(res))
-            || new Position(4, 3).equals(getMercPos(res)));
+        assertTrue(new Position(4, 1).equals(getMercPos(res)) || new Position(4, 3).equals(getMercPos(res)));
     }
 
     @Test
@@ -95,9 +93,7 @@ public class MercenaryTest {
         assertEquals(new Position(7, 1), getMercPos(res));
 
         // attempt bribe
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         assertEquals(1, TestUtils.getInventory(res, "treasure").size());
 
         // pick up second treasure
@@ -106,9 +102,7 @@ public class MercenaryTest {
         assertEquals(new Position(6, 1), getMercPos(res));
 
         // attempt bribe
-        assertThrows(InvalidActionException.class, () ->
-                dmc.interact(mercId)
-        );
+        assertThrows(InvalidActionException.class, () -> dmc.interact(mercId));
         assertEquals(2, TestUtils.getInventory(res, "treasure").size());
 
         // pick up third treasure

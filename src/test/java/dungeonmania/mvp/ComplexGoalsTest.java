@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ComplexGoalsTest {
-
     @Test
     @Tag("14-1")
     @DisplayName("Testing a map with 4 conjunction goal")
@@ -72,8 +71,8 @@ public class ComplexGoalsTest {
     public void exitAndTreasureOrder() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_complexGoalsTest_exitAndTreasureOrder", "c_complexGoalsTest_exitAndTreasureOrder");
+        DungeonResponse res = dmc.newGame("d_complexGoalsTest_exitAndTreasureOrder",
+                "c_complexGoalsTest_exitAndTreasureOrder");
 
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
@@ -104,8 +103,8 @@ public class ComplexGoalsTest {
     public void exitAndBouldersAndTreasureOrder() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_complexGoalsTest_exitAndBouldersAndTreasureOrder", "c_complexGoalsTest_exitAndBouldersAndTreasureOrder");
+        DungeonResponse res = dmc.newGame("d_complexGoalsTest_exitAndBouldersAndTreasureOrder",
+                "c_complexGoalsTest_exitAndBouldersAndTreasureOrder");
 
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));

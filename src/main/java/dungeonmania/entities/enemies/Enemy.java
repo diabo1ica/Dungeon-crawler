@@ -13,11 +13,7 @@ public abstract class Enemy extends Entity implements Battleable {
 
     public Enemy(Position position, double health, double attack) {
         super(position.asLayer(Entity.CHARACTER_LAYER));
-        battleStatistics = new BattleStatistics(
-                health,
-                attack,
-                0,
-                BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
+        battleStatistics = new BattleStatistics(health, attack, 0, BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
                 BattleStatistics.DEFAULT_ENEMY_DAMAGE_REDUCER);
     }
 

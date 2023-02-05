@@ -20,22 +20,15 @@ public class ResponseBuilder {
         game.getMap().getEntities().forEach(e -> {
             entityResponse.add(ResponseBuilder.getEntityResponse(game, e));
         });
-        return new DungeonResponse(
-                game.getId(),
-                game.getName(),
-                entityResponse,
+        return new DungeonResponse(game.getId(), game.getName(), entityResponse,
                 (game.getPlayer() != null) ? getInventoryResponse(game.getPlayer().getInventory()) : null,
                 game.getBattleFacade().getBattleResponses(),
                 (game.getPlayer() != null) ? game.getPlayer().getBuildables() : null,
-                (game.getGoals().achieved(game)) ? ""
-                        : game.getGoals().toString(game));
+                (game.getGoals().achieved(game)) ? "" : game.getGoals().toString(game));
     }
 
     private static List<ItemResponse> getInventoryResponse(Inventory inventory) {
-        return inventory.getEntities()
-                        .stream()
-                        .map(ResponseBuilder::getItemResponse)
-                        .collect(Collectors.toList());
+        return inventory.getEntities().stream().map(ResponseBuilder::getItemResponse).collect(Collectors.toList());
     }
 
     public static ItemResponse getItemResponse(Entity entity) {
@@ -43,16 +36,11 @@ public class ResponseBuilder {
     }
 
     public static EntityResponse getEntityResponse(Game game, Entity entity) {
-        return new EntityResponse(
-                entity.getId(),
-                NameConverter.toSnakeCase(entity),
-                entity.getPosition(),
+        return new EntityResponse(entity.getId(), NameConverter.toSnakeCase(entity), entity.getPosition(),
                 (entity instanceof Interactable) && ((Interactable) entity).isInteractable(game.getPlayer()));
     }
 
     public static RoundResponse getRoundResponse(BattleRound round) {
-        return new RoundResponse(
-                round.getDeltaSelfHealth(),
-                round.getDeltaTargetHealth());
+        return new RoundResponse(round.getDeltaSelfHealth(), round.getDeltaTargetHealth());
     }
 }

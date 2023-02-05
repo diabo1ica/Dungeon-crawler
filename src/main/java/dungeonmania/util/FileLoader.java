@@ -38,9 +38,7 @@ public final class FileLoader {
      */
     public static List<String> listFileNamesInResourceDirectory(String directory) {
         Reflections reflections = new Reflections(directory, Scanners.Resources);
-        return reflections.getResources(".*\\.json")
-                .stream()
-                .map(s -> s.replace(directory + "/", "").replace(".json", ""))
-                .collect(Collectors.toList());
+        return reflections.getResources(".*\\.json").stream()
+                .map(s -> s.replace(directory + "/", "").replace(".json", "")).collect(Collectors.toList());
     }
 }

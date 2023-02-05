@@ -9,13 +9,14 @@ public class Environment {
     private static volatile Boolean securable = null;
 
     public static final synchronized String getIPAddress() {
-        return (ipAddress == null && (ipAddress = System.getenv(PREFIX + "ADDRESS")) == null)
-            ? ipAddress = "0.0.0.0" // default to bind all interface
-            : ipAddress;
+        return (ipAddress == null && (ipAddress = System.getenv(PREFIX + "ADDRESS")) == null) ? ipAddress = "0.0.0.0"
+                : ipAddress;
+        // default to bind all interface
     }
 
     public static final synchronized int getPort() {
-        if (port != null) return port;
+        if (port != null)
+            return port;
         try {
             return port = Integer.parseInt(System.getenv(PREFIX + "PORT"));
         } catch (Exception e) {
