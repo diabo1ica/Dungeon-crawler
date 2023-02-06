@@ -1,4 +1,5 @@
 package scintilla;
+
 import static spark.Spark.*;
 
 /**

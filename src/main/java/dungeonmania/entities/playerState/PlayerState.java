@@ -26,6 +26,8 @@ public abstract class PlayerState {
     }
 
     public abstract void transitionInvisible();
+
     public abstract void transitionInvincible();
+
     public abstract void transitionBase();
 }

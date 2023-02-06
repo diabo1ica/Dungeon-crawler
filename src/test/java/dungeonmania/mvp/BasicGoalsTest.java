@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BasicGoalsTest {
-
     @Test
     @Tag("13-1")
     @DisplayName("Test achieving a basic exit goal")
@@ -32,11 +31,10 @@ public class BasicGoalsTest {
         assertEquals("", TestUtils.getGoals(res));
     }
 
-
     @Test
     @Tag("13-2")
     @DisplayName("Test achieving a basic boulders goal")
-    public void oneSwitch()  {
+    public void oneSwitch() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_basicGoalsTest_oneSwitch", "c_basicGoalsTest_oneSwitch");
@@ -57,7 +55,7 @@ public class BasicGoalsTest {
     @Test
     @Tag("13-3")
     @DisplayName("Test achieving a boulders goal where there are five switches")
-    public void fiveSwitches()  {
+    public void fiveSwitches() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_basicGoalsTest_fiveSwitches", "c_basicGoalsTest_fiveSwitches");
@@ -88,7 +86,6 @@ public class BasicGoalsTest {
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
     }
-
 
     @Test
     @Tag("13-4")

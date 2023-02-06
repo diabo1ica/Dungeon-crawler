@@ -11,16 +11,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class InterfaceTest {
     @Test
     @Tag("2-1")
     @DisplayName("Testing newGame interface method, normal operation")
     public void testNewGameInterfaceNormalOperation() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-             "d_InterfaceTest_testNewGameInterfaceNormalOperation",
-             "c_InterfaceTest_testNewGameInterfaceNormalOperation");
+        DungeonResponse res = dmc.newGame("d_InterfaceTest_testNewGameInterfaceNormalOperation",
+                "c_InterfaceTest_testNewGameInterfaceNormalOperation");
 
         assertEquals("d_InterfaceTest_testNewGameInterfaceNormalOperation", res.getDungeonName());
         assertTrue(res.getInventory().isEmpty());
@@ -36,10 +34,7 @@ public class InterfaceTest {
     @DisplayName("Testing newGame on a nonexistent dungeon")
     public void testNewGameInterfaceDungeonNotFound() {
         DungeonManiaController dmc = new DungeonManiaController();
-        assertThrows(IllegalArgumentException.class, () ->
-            dmc.newGame(
-                "d_non_exist", "c_non_exist")
-        );
+        assertThrows(IllegalArgumentException.class, () -> dmc.newGame("d_non_exist", "c_non_exist"));
     }
 
     @Nested
@@ -49,8 +44,8 @@ public class InterfaceTest {
         @DisplayName("Testing tick interface method, normal operation")
         public void testTickInterfaceNormalOperation() {
             DungeonManiaController dmc = new DungeonManiaController();
-            DungeonResponse res = dmc.newGame(
-                "d_InterfaceTest_testTickInterfaceNormalOperation", "c_InterfaceTest_testTickInterfaceNormalOperation");
+            DungeonResponse res = dmc.newGame("d_InterfaceTest_testTickInterfaceNormalOperation",
+                    "c_InterfaceTest_testTickInterfaceNormalOperation");
             assertNotNull(res);
             assertDoesNotThrow(() -> {
                 assertNotNull(dmc.tick(Direction.UP));
@@ -66,9 +61,8 @@ public class InterfaceTest {
             // Pick up the arrow
             DungeonResponse pickedUpArrowState = dmc.tick(Direction.RIGHT);
             assertThrows(IllegalArgumentException.class, () ->
-                // try to use arrow but can't
-                dmc.tick(TestUtils.getFirstItemId(pickedUpArrowState, "arrow"))
-            );
+            // try to use arrow but can't
+            dmc.tick(TestUtils.getFirstItemId(pickedUpArrowState, "arrow")));
         }
 
         @Test
@@ -76,9 +70,8 @@ public class InterfaceTest {
         @DisplayName("Testing tick with an item that is not in the player's inventory")
         public void testTickInterfaceItemNotInInventory() {
             DungeonManiaController dmc = new DungeonManiaController();
-            DungeonResponse res = dmc.newGame(
-                "d_InterfaceTest_testTickInterfaceItemNotInInventory",
-                "c_InterfaceTest_testTickInterfaceItemNotInInventory");
+            DungeonResponse res = dmc.newGame("d_InterfaceTest_testTickInterfaceItemNotInInventory",
+                    "c_InterfaceTest_testTickInterfaceItemNotInInventory");
             assertThrows(InvalidActionException.class, () -> {
                 // try to use bomb but it is not in the inventory
                 String id = TestUtils.getEntities(res, "bomb").get(0).getId();

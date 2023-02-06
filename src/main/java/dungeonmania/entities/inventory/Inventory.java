@@ -77,20 +77,23 @@ public class Inventory {
 
     public <T extends InventoryItem> T getFirst(Class<T> itemType) {
         for (InventoryItem item : items)
-            if (itemType.isInstance(item)) return itemType.cast(item);
+            if (itemType.isInstance(item))
+                return itemType.cast(item);
         return null;
     }
 
     public <T extends InventoryItem> int count(Class<T> itemType) {
         int count = 0;
         for (InventoryItem item : items)
-            if (itemType.isInstance(item)) count++;
+            if (itemType.isInstance(item))
+                count++;
         return count;
     }
 
     public Entity getEntity(String itemUsedId) {
         for (InventoryItem item : items)
-            if (((Entity) item).getId().equals(itemUsedId)) return (Entity) item;
+            if (((Entity) item).getId().equals(itemUsedId))
+                return (Entity) item;
         return null;
     }
 

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BombTest {
-
     @Test
     @Tag("8-1")
     @DisplayName("Test picking up a bomb removes the bomb from the map and adds the bomb to the inventory")
@@ -31,8 +30,8 @@ public class BombTest {
 
     @Test
     @Tag("8-2")
-    @DisplayName(
-        "Test placing a bomb removes it from the inventory and places it on the map at the character's location")
+    @DisplayName("Test placing a bomb removes it from the inventory and "
+            + "places it on the map at the character's location")
     public void place() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -62,8 +61,8 @@ public class BombTest {
 
     @Test
     @Tag("8-3")
-    @DisplayName(
-        "Test placing a bomb on a map diagonally adjacent to an active switch will not cause the bomb to detonate")
+    @DisplayName("Test placing a bomb on a map diagonally adjacent "
+            + "to an active switch will not cause the bomb to detonate")
     public void placeDiagonallyAdjacentActiveSwitch() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -90,9 +89,8 @@ public class BombTest {
 
     @Test
     @Tag("8-4")
-    @DisplayName(
-        "Test placing a bomb cardinally adjacent to an active switch, removing surrounding non-player entities"
-    )
+    @DisplayName("Test placing a bomb cardinally adjacent to an active switch, "
+            + "removing surrounding non-player entities")
     public void placeCardinallyActive() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -123,8 +121,8 @@ public class BombTest {
     // removing surrounding entities except for the player
     @Test
     @Tag("8-5")
-    @DisplayName(
-        "Test placing a bomb on a map cardinally adjacent to an inactive switch, and then activating the switch")
+    @DisplayName("Test placing a bomb on a map cardinally adjacent to "
+            + "an inactive switch, and then activating the switch")
     public void placeCardinallyActivated() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -179,9 +177,8 @@ public class BombTest {
 
     @Test
     @Tag("8-7")
-    @DisplayName(
-        "Test surrounding entities are removed when placing a bomb next to an active switch with bomb radius set to 2"
-    )
+    @DisplayName("Test surrounding entities are removed when placing "
+            + "a bomb next to an active switch with bomb radius set to 2")
     public void placeBombRadius2() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -214,9 +211,8 @@ public class BombTest {
 
     @Test
     @Tag("8-8")
-    @DisplayName(
-        "Test surrounding entities are removed when placing a bomb next to an active switch with bomb radius set to 10"
-    )
+    @DisplayName("Test surrounding entities are removed when placing a "
+            + "bomb next to an active switch with bomb radius set to 10")
     public void placeBombRadius10() throws InvalidActionException {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();

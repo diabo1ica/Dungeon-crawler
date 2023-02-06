@@ -2,7 +2,9 @@ package scintilla;
 
 public class Scintilla {
     // block initialisation of multiple WebServers
-    private Scintilla() { }
+    private Scintilla() {
+    }
+
     private static final WebServer INSTANCE = new WebServer();
 
     public static void initialize() {

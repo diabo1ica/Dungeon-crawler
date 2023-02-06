@@ -19,8 +19,8 @@ public class PortalsTest {
     @DisplayName("Test portals work both ways")
     public void testTeleportationBothWays() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse preTeleportResponse = controller.newGame(
-            "d_PortalsTest_testTeleportationBothWays", "c_PortalsTest_testTeleportationBothWays");
+        DungeonResponse preTeleportResponse = controller.newGame("d_PortalsTest_testTeleportationBothWays",
+                "c_PortalsTest_testTeleportationBothWays");
         EntityResponse player = TestUtils.getPlayer(preTeleportResponse).get();
 
         assertEquals(new Position(0, 1), player.getPosition());
@@ -68,8 +68,8 @@ public class PortalsTest {
     @DisplayName("Test portal has no effect on spiders")
     public void testNoEffectOnSpider() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse initState = controller.newGame(
-            "d_PortalsTest_testNoEffectOnSpider", "c_PortalsTest_testNoEffectOnSpider");
+        DungeonResponse initState = controller.newGame("d_PortalsTest_testNoEffectOnSpider",
+                "c_PortalsTest_testNoEffectOnSpider");
 
         Position initSpiderPosition = TestUtils.getEntities(initState, "spider").get(0).getPosition();
         List<Position> movementTrajectory = TestUtils.getSpiderTrajectory(initSpiderPosition);
@@ -77,8 +77,7 @@ public class PortalsTest {
         // Assert Circular Movement of Spider
         for (int i = 0; i <= 20; ++i) {
             DungeonResponse res = controller.tick(Direction.UP);
-            assertEquals(movementTrajectory.get(i % 8),
-                    TestUtils.getEntities(res, "spider").get(0).getPosition());
+            assertEquals(movementTrajectory.get(i % 8), TestUtils.getEntities(res, "spider").get(0).getPosition());
         }
     }
 
@@ -87,8 +86,8 @@ public class PortalsTest {
     @DisplayName("Test portal has no effect on zombies")
     public void testNoEffectOnZombie() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse res = controller.newGame(
-            "d_PortalsTest_testNoEffectOnZombie", "c_PortalsTest_testNoEffectOnZombie");
+        DungeonResponse res = controller.newGame("d_PortalsTest_testNoEffectOnZombie",
+                "c_PortalsTest_testNoEffectOnZombie");
         Position zombiePosition = TestUtils.getEntities(res, "zombie_toast").get(0).getPosition();
         Position portalPosition = new Position(2, 1);
 
@@ -107,8 +106,8 @@ public class PortalsTest {
     @DisplayName("Test portal matching when there are multiple portals")
     public void testMultiplePortals() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse res = controller.newGame(
-            "d_PortalsTest_testMultiplePortals", "c_PortalsTest_testMultiplePortals");
+        DungeonResponse res = controller.newGame("d_PortalsTest_testMultiplePortals",
+                "c_PortalsTest_testMultiplePortals");
 
         // Move into the red portal
         res = controller.tick(Direction.RIGHT);
@@ -122,8 +121,8 @@ public class PortalsTest {
     @DisplayName("Test chain teleporting between multiple portals")
     public void testMultiplePortalsChain() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse res = controller.newGame(
-            "d_PortalsTest_testMultiplePortalsChain", "c_PortalsTest_testMultiplePortalsChain");
+        DungeonResponse res = controller.newGame("d_PortalsTest_testMultiplePortalsChain",
+                "c_PortalsTest_testMultiplePortalsChain");
 
         Position bluePortalPos = new Position(1, 1);
         Position greyPortalPos = new Position(5, 1);

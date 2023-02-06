@@ -17,13 +17,13 @@ public class MovementTest {
     @DisplayName("Test the player can move down")
     public void testMovementDown() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame(
-            "d_movementTest_testMovementDown", "c_movementTest_testMovementDown");
+        DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementDown",
+                "c_movementTest_testMovementDown");
         EntityResponse initPlayer = TestUtils.getPlayer(initDungonRes).get();
 
         // create the expected result
-        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(),
-        new Position(1, 2), false);
+        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(), new Position(1, 2),
+                false);
 
         // move player downward
         DungeonResponse actualDungonRes = dmc.tick(Direction.DOWN);
@@ -42,8 +42,8 @@ public class MovementTest {
         EntityResponse initPlayer = TestUtils.getPlayer(initDungonRes).get();
 
         // create the expected result
-        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(),
-        new Position(1, 0), false);
+        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(), new Position(1, 0),
+                false);
 
         // move player upward
         DungeonResponse actualDungonRes = dmc.tick(Direction.UP);
@@ -58,13 +58,13 @@ public class MovementTest {
     @DisplayName("Test the player can move left")
     public void testMovementLeft() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame(
-            "d_movementTest_testMovementLeft", "c_movementTest_testMovementLeft");
+        DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementLeft",
+                "c_movementTest_testMovementLeft");
         EntityResponse initPlayer = TestUtils.getPlayer(initDungonRes).get();
 
         // create the expected result
-        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(),
-        new Position(0, 1), false);
+        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(), new Position(0, 1),
+                false);
 
         // move player left
         DungeonResponse actualDungonRes = dmc.tick(Direction.LEFT);
@@ -79,13 +79,13 @@ public class MovementTest {
     @DisplayName("Test the player can move right")
     public void testMovementRight() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse initDungonRes = dmc.newGame(
-            "d_movementTest_testMovementRight", "c_movementTest_testMovementRight");
+        DungeonResponse initDungonRes = dmc.newGame("d_movementTest_testMovementRight",
+                "c_movementTest_testMovementRight");
         EntityResponse initPlayer = TestUtils.getPlayer(initDungonRes).get();
 
         // create the expected result
-        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(),
-        initPlayer.getType(), new Position(2, 1), false);
+        EntityResponse expectedPlayer = new EntityResponse(initPlayer.getId(), initPlayer.getType(), new Position(2, 1),
+                false);
 
         // move player right
         DungeonResponse actualDungonRes = dmc.tick(Direction.RIGHT);

@@ -53,8 +53,7 @@ public class Game {
     }
 
     public Game tick(Direction movementDirection) {
-        registerOnce(
-            () -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
+        registerOnce(() -> player.move(this.getMap(), movementDirection), PLAYER_MOVEMENT, "playerMoves");
         tick();
         return this;
     }
@@ -108,8 +107,7 @@ public class Game {
         if (!((Interactable) e).isInteractable(player)) {
             throw new InvalidActionException("Entity cannot be interacted");
         }
-        registerOnce(
-            () -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteracts");
+        registerOnce(() -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteracts");
         tick();
         return this;
     }

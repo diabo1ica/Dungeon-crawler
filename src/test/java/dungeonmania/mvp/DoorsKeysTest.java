@@ -11,15 +11,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DoorsKeysTest {
-
     @Test
     @Tag("4-1")
     @DisplayName("Test player cannot walk through a closed door")
     public void cannotWalkClosedDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_DoorsKeysTest_cannotWalkClosedDoor", "c_DoorsKeysTest_cannotWalkClosedDoor");
+        DungeonResponse res = dmc.newGame("d_DoorsKeysTest_cannotWalkClosedDoor",
+                "c_DoorsKeysTest_cannotWalkClosedDoor");
         Position pos = TestUtils.getEntities(res, "player").get(0).getPosition();
 
         // try to walk through door and fail
@@ -51,8 +50,8 @@ public class DoorsKeysTest {
     public void useKeyWalkThroughOpenDoor() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_DoorsKeysTest_useKeyWalkThroughOpenDoor", "c_DoorsKeysTest_useKeyWalkThroughOpenDoor");
+        DungeonResponse res = dmc.newGame("d_DoorsKeysTest_useKeyWalkThroughOpenDoor",
+                "c_DoorsKeysTest_useKeyWalkThroughOpenDoor");
 
         // pick up key
         res = dmc.tick(Direction.RIGHT);
@@ -80,7 +79,6 @@ public class DoorsKeysTest {
         assertEquals(1, TestUtils.getInventory(res, "key").size());
         assertEquals(1, TestUtils.getEntities(res, "key").size());
 
-
         // pick up key_2
         res = dmc.tick(Direction.RIGHT);
         assertEquals(2, TestUtils.getInventory(res, "key").size());
@@ -93,8 +91,8 @@ public class DoorsKeysTest {
     public void canPickupSecondKeyAfterFirstUse() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_DoorsKeysTest_canPickupSecondKeyAfterFirstUse", "c_DoorsKeysTest_canPickupSecondKeyAfterFirstUse");
+        DungeonResponse res = dmc.newGame("d_DoorsKeysTest_canPickupSecondKeyAfterFirstUse",
+                "c_DoorsKeysTest_canPickupSecondKeyAfterFirstUse");
 
         assertEquals(2, TestUtils.getEntities(res, "key").size());
 
@@ -120,8 +118,8 @@ public class DoorsKeysTest {
     public void cannotOpenDoorWithWrongKey() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame(
-            "d_DoorsKeysTest_cannotOpenDoorWithWrongKey", "c_DoorsKeysTest_cannotOpenDoorWithWrongKey");
+        DungeonResponse res = dmc.newGame("d_DoorsKeysTest_cannotOpenDoorWithWrongKey",
+                "c_DoorsKeysTest_cannotOpenDoorWithWrongKey");
 
         // pick up key_1
         res = dmc.tick(Direction.RIGHT);

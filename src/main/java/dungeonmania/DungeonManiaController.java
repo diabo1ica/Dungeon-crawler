@@ -102,8 +102,8 @@ public class DungeonManiaController {
     /**
      * /game/new/generate
      */
-    public DungeonResponse generateDungeon(
-            int xStart, int yStart, int xEnd, int yEnd, String configName) throws IllegalArgumentException {
+    public DungeonResponse generateDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName)
+            throws IllegalArgumentException {
         return null;
     }
 

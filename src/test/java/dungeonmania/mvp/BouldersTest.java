@@ -16,9 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BouldersTest {
     private boolean boulderAt(DungeonResponse res, int x, int y) {
         Position pos = new Position(x, y);
-        return TestUtils.getEntitiesStream(res, "boulder").anyMatch(
-            it -> it.getPosition().equals(pos)
-        );
+        return TestUtils.getEntitiesStream(res, "boulder").anyMatch(it -> it.getPosition().equals(pos));
     }
 
     @Test

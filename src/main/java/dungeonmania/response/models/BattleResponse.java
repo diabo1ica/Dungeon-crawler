@@ -22,7 +22,7 @@ public final class BattleResponse {
     }
 
     public BattleResponse(String enemy, List<RoundResponse> rounds, List<ItemResponse> battleItems,
-    double initialPlayerHealth, double initialEnemyHealth) {
+            double initialPlayerHealth, double initialEnemyHealth) {
         this.initialPlayerHealth = initialPlayerHealth;
         this.initialEnemyHealth = initialEnemyHealth;
         this.enemy = enemy;

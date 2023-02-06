@@ -7,9 +7,7 @@ import dungeonmania.entities.Boulder;
 import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
 
-
 public class Spider extends Enemy {
-
     private List<Position> movementTrajectory;
     private int nextPositionElement;
     private boolean forward;
@@ -56,8 +54,7 @@ public class Spider extends Enemy {
         }
         nextPos = movementTrajectory.get(nextPositionElement);
         entities = game.getMap().getEntities(nextPos);
-        if (entities == null
-                || entities.size() == 0
+        if (entities == null || entities.size() == 0
                 || entities.stream().allMatch(e -> e.canMoveOnto(game.getMap(), this))) {
             game.getMap().moveTo(this, nextPos);
             updateNextPosition();
