@@ -71,7 +71,10 @@ public class Goal {
         case "AND":
             return "(" + goal1.toString(game) + " AND " + goal2.toString(game) + ")";
         case "OR":
-            return "(" + goal1.toString(game) + " OR " + goal2.toString(game) + ")";
+            if (achieved(game))
+                return "";
+            else
+                return "(" + goal1.toString(game) + " OR " + goal2.toString(game) + ")";
         default:
             break;
         }
