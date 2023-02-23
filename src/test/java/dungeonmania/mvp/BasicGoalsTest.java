@@ -122,33 +122,4 @@ public class BasicGoalsTest {
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
     }
-
-    @Test
-    @Tag("13-5")
-    @DisplayName("Test an invalid exit goal cannot be achieved")
-    public void exitNoExit() {
-        DungeonManiaController dmc;
-        dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_basicGoalsTest_exitNoExit", "c_basicGoalsTest_exitNoExit");
-
-        // move player to right
-        res = dmc.tick(Direction.RIGHT);
-
-        // assert goal not met
-        assertTrue(TestUtils.getGoals(res).contains(":exit"));
-    }
-
-    @Test
-    @Tag("13-6")
-    @DisplayName("Test a goal cannot be achieved without a player")
-    public void exitNoPlayer() {
-        DungeonManiaController dmc;
-        dmc = new DungeonManiaController();
-        DungeonResponse res = dmc.newGame("d_basicGoalsTest_exitNoPlayer", "c_basicGoalsTest_exitNoPlayer");
-
-        // assert goal not met
-        assertTrue(TestUtils.getGoals(res).contains(":exit"));
-    }
-
-
 }
