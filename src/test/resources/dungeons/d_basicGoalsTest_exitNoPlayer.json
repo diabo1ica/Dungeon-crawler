@@ -1,0 +1,10 @@
+{
+    "entities": [
+        {
+            "type" : "exit",
+            "x" : 3,
+            "y" : 1
+        }
+    ],
+    "goal-condition": {"goal": "exit"}
+}

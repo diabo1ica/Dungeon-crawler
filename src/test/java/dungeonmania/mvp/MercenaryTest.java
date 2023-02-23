@@ -34,16 +34,47 @@ public class MercenaryTest {
     @Test
     @Tag("12-2")
     @DisplayName("Test mercenary stops if they cannot move any closer to the player")
-    public void stopMovement() {
-        //                  Wall     Wall    Wall
-        // P1       P2      Wall      M1     Wall
-        //                  Wall     Wall    Wall
+    public void stopMovement() throws IllegalArgumentException, InvalidActionException {
+        //                         Wall     Wall    Wall
+        // P1   Invinc  Invis      Wall      M1     Wall
+        //                         Wall     Wall    Wall
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_mercenaryTest_stopMovement", "c_mercenaryTest_stopMovement");
 
         Position startingPos = getMercPos(res);
+
+        // Pick up potions
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+        assertEquals(1, TestUtils.getInventory(res, "invincibility_potion").size());
+
+        assertEquals(startingPos, getMercPos(res));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "invisibility_potion").size());
+        assertEquals(1, TestUtils.getInventory(res, "invisibility_potion").size());
+
+        assertEquals(startingPos, getMercPos(res));
+
+        // Consume potion 1, check mercenary is stopped
+        res = dmc.tick(TestUtils.getFirstItemId(res, "invincibility_potion"));
+        assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+
+        assertEquals(startingPos, getMercPos(res));
         res = dmc.tick(Direction.RIGHT);
         assertEquals(startingPos, getMercPos(res));
+
+
+        // Consume potion 2, check mercenary is stopped
+        res = dmc.tick(TestUtils.getFirstItemId(res, "invisibility_potion"));
+        assertEquals(0, TestUtils.getInventory(res, "invisibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invisibility_potion").size());
+
+        assertEquals(startingPos, getMercPos(res));
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(startingPos, getMercPos(res));
+
     }
 
     @Test
