@@ -7,6 +7,7 @@ import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -48,7 +49,7 @@ public class BattleTest {
         // Set player and spider health in config here
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericSpiderSequence(controller,
-                "c_battleTests_basicSpiderPlayerDies");
+                "c_battleTest_basicSpiderPlayerDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
         assertTrue(TestUtils.countEntityOfType(entities, "player") == 0);
     }
@@ -59,7 +60,7 @@ public class BattleTest {
     public void testSpiderDiesWhenBattle() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericSpiderSequence(controller,
-                "c_battleTests_basicSpiderSpiderDies");
+                "c_battleTest_basicSpiderSpiderDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
         assertTrue(TestUtils.countEntityOfType(entities, "spider") == 0);
     }
@@ -70,7 +71,7 @@ public class BattleTest {
     public void testPlayerDiesWhenBattleZombie() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericZombieSequence(controller,
-                "c_battleTests_basicZombiePlayerDies");
+                "c_battleTest_basicZombiePlayerDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
         assertTrue(TestUtils.countEntityOfType(entities, "player") == 0);
     }
@@ -81,7 +82,7 @@ public class BattleTest {
     public void testZombieDiesWhenBattle() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericZombieSequence(controller,
-                "c_battleTests_basicZombieZombieDies");
+                "c_battleTest_basicZombieZombieDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
 
         assertTrue(TestUtils.countEntityOfType(entities, "zombie") == 0);
@@ -93,7 +94,7 @@ public class BattleTest {
     public void testPlayerDiesWhenBattleMercenary() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericMercenarySequence(controller,
-                "c_battleTests_basicMercenaryPlayerDies");
+                "c_battleTest_basicMercenaryPlayerDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
 
         assertTrue(TestUtils.countEntityOfType(entities, "player") == 0);
@@ -105,7 +106,7 @@ public class BattleTest {
     public void testMercenariyDiesWhenBattle() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericMercenarySequence(controller,
-                "c_battleTests_basicMercenaryMercenaryDies");
+                "c_battleTest_basicMercenaryMercenaryDies");
         List<EntityResponse> entities = postBattleResponse.getEntities();
 
         assertTrue(TestUtils.countEntityOfType(entities, "mercenary") == 0);
@@ -116,7 +117,7 @@ public class BattleTest {
     @DisplayName("Test player wins a battle against a spider with an invinicibility potion")
     public void testPlayerWinsSpiderBattleWithInvincibilityPotion() throws InvalidActionException {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_battleWithInvincibility";
+        String config = "c_battleTest_battleWithInvincibility";
         controller.newGame("d_battleTest_invincibleSpider", config);
 
         DungeonResponse preBattleResponse = controller.tick(Direction.RIGHT);
@@ -146,8 +147,8 @@ public class BattleTest {
     @DisplayName("Test player wins a battle against a zombie with an invincibility potion")
     public void testPlayerWinsZombieBattleWithInvincibilityPotion() throws InvalidActionException {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_battleWithInvincibility";
-        controller.newGame("d_battleTest_invincibleZombie", "c_battleTests_battleWithInvincibility");
+        String config = "c_battleTest_battleWithInvincibility";
+        controller.newGame("d_battleTest_invincibleZombie", "c_battleTest_battleWithInvincibility");
 
         int potionLength = Integer.parseInt(TestUtils.getValueFromConfigFile("invincibility_potion_duration", config));
         DungeonResponse preBattleResponse = controller.tick(Direction.RIGHT);
@@ -176,8 +177,8 @@ public class BattleTest {
     @DisplayName("Test a player wins a battle against a mercenary with an invincibility potion")
     public void testPlayerWinsMercenaryBattleWithInvincibilityPotion() throws InvalidActionException {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_battleWithInvincibility";
-        controller.newGame("d_battleTest_invincibleMercenary", "c_battleTests_battleWithInvincibility");
+        String config = "c_battleTest_battleWithInvincibility";
+        controller.newGame("d_battleTest_invincibleMercenary", "c_battleTest_battleWithInvincibility");
 
         int potionLength = Integer.parseInt(TestUtils.getValueFromConfigFile("invincibility_potion_duration", config));
         DungeonResponse preBattleResponse = controller.tick(Direction.RIGHT);
@@ -209,7 +210,7 @@ public class BattleTest {
     @DisplayName("Test the player battles three enemies consecutively and defeats them")
     public void testPlayerBattlingEnemiesConsecutivelyDefeatsThem() {
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("d_battleTest_consecutiveEnemies", "c_battleTests_threeConsecutiveEnemies");
+        controller.newGame("d_battleTest_consecutiveEnemies", "c_battleTest_threeConsecutiveEnemies");
 
         DungeonResponse postBattleResponse = controller.tick(Direction.RIGHT);
         List<EntityResponse> entities = postBattleResponse.getEntities();
@@ -247,9 +248,9 @@ public class BattleTest {
     public void testRoundCalculationsSpider() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericSpiderSequence(controller,
-                "c_battleTests_basicSpiderSpiderDies");
+                "c_battleTest_basicSpiderSpiderDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, true, "c_battleTests_basicSpiderSpiderDies", "spider");
+        assertBattleCalculations(battle, true, "c_battleTest_basicSpiderSpiderDies", "spider");
     }
 
     @Test
@@ -258,9 +259,9 @@ public class BattleTest {
     public void testRoundCalculationsZombie() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericZombieSequence(controller,
-                "c_battleTests_basicZombieZombieDies");
+                "c_battleTest_basicZombieZombieDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, true, "c_battleTests_basicZombieZombieDies", "zombie");
+        assertBattleCalculations(battle, true, "c_battleTest_basicZombieZombieDies", "zombie");
     }
 
     @Test
@@ -269,9 +270,9 @@ public class BattleTest {
     public void testRoundCalculationsMercenary() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericMercenarySequence(controller,
-                "c_battleTests_basicMercenaryMercenaryDies");
+                "c_battleTest_basicMercenaryMercenaryDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, true, "c_battleTests_basicMercenaryMercenaryDies", "mercenary");
+        assertBattleCalculations(battle, true, "c_battleTest_basicMercenaryMercenaryDies", "mercenary");
     }
 
     @Test
@@ -280,9 +281,9 @@ public class BattleTest {
     public void testHealthBelowZeroSpider() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericSpiderSequence(controller,
-                "c_battleTests_basicSpiderPlayerDies");
+                "c_battleTest_basicSpiderPlayerDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, false, "c_battleTests_basicSpiderPlayerDies", "spider");
+        assertBattleCalculations(battle, false, "c_battleTest_basicSpiderPlayerDies", "spider");
     }
 
     @Test
@@ -291,9 +292,9 @@ public class BattleTest {
     public void testHealthBelowZeroZombie() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericZombieSequence(controller,
-                "c_battleTests_basicZombiePlayerDies");
+                "c_battleTest_basicZombiePlayerDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, false, "c_battleTests_basicZombiePlayerDies", "zombie");
+        assertBattleCalculations(battle, false, "c_battleTest_basicZombiePlayerDies", "zombie");
     }
 
     @Test
@@ -302,9 +303,9 @@ public class BattleTest {
     public void testHealthBelowZeroMercenary() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse postBattleResponse = TestUtils.genericMercenarySequence(controller,
-                "c_battleTests_basicMercenaryPlayerDies");
+                "c_battleTest_basicMercenaryPlayerDies");
         BattleResponse battle = postBattleResponse.getBattles().get(0);
-        assertBattleCalculations(battle, false, "c_battleTests_basicMercenaryPlayerDies", "mercenary");
+        assertBattleCalculations(battle, false, "c_battleTest_basicMercenaryPlayerDies", "mercenary");
     }
 
     @Test
@@ -313,7 +314,7 @@ public class BattleTest {
     public void testBowAttackTwiceSpider() throws InvalidActionException {
         DungeonManiaController controller;
         controller = new DungeonManiaController();
-        String config = "c_battleTests_bowDoubleAttack";
+        String config = "c_battleTest_bowDoubleAttack";
         DungeonResponse res = controller.newGame("d_battleTest_bowTest", config);
 
         // Pick up Wood
@@ -343,7 +344,7 @@ public class BattleTest {
     public void testShieldReducesEnemyAttack() throws InvalidActionException {
         DungeonManiaController controller;
         controller = new DungeonManiaController();
-        String config = "c_battleTests_shieldEffect";
+        String config = "c_battleTest_shieldEffect";
         DungeonResponse res = controller.newGame("d_battleTest_shieldTest", config);
 
         // Pick up Wood
@@ -382,7 +383,7 @@ public class BattleTest {
     @DisplayName("Test bow durability")
     public void testBowDurability() throws InvalidActionException {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_bowDurability";
+        String config = "c_battleTest_bowDurability";
         DungeonResponse res = controller.newGame("d_battleTest_bowDurabilityTest", config);
 
         List<EntityResponse> entities = res.getEntities();
@@ -424,7 +425,7 @@ public class BattleTest {
     @DisplayName("Test shield durability")
     public void testShieldDurability() throws InvalidActionException {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_shieldDurability";
+        String config = "c_battleTest_shieldDurability";
         DungeonResponse res = controller.newGame("d_battleTest_shieldDurabilityTest", config);
 
         int enemyAttack = Integer.parseInt(TestUtils.getValueFromConfigFile("zombie_attack", config));
@@ -480,7 +481,7 @@ public class BattleTest {
     @DisplayName("Test sword increases attack damage")
     public void testSwordIncreasesAttackDamage() {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_swordIncreasesAttackDamage";
+        String config = "c_battleTest_swordIncreasesAttackDamage";
         controller.newGame("d_battleTest_swordIncreasesAttackDamage", config);
         // Pick up sword
         DungeonResponse res = controller.tick(Direction.RIGHT);
@@ -505,7 +506,7 @@ public class BattleTest {
     @DisplayName("Test sword durability")
     public void testSwordDurability() {
         DungeonManiaController controller = new DungeonManiaController();
-        String config = "c_battleTests_swordDurability";
+        String config = "c_battleTest_swordDurability";
         DungeonResponse res = controller.newGame("d_battleTest_swordDurabilityTest", config);
 
         List<EntityResponse> entities = res.getEntities();
@@ -533,5 +534,45 @@ public class BattleTest {
 
         // the sword is not used
         assertEquals(0, lastBattle.getBattleItems().size());
+    }
+
+    @Test
+    @Tag("11-16")
+    @DisplayName("Test ally gives attack and defence bonus")
+    public void testAllyGivesAttackAndDefenceBonus() throws IllegalArgumentException, InvalidActionException {
+        DungeonManiaController controller = new DungeonManiaController();
+        String config = "c_battleTest_allyGivesAttackAndDefenceBonus";
+        DungeonResponse res = controller.newGame("d_battleTest_allyGivesAttackAndDefenceBonus", config);
+
+        List<EntityResponse> entities = res.getEntities();
+        assertEquals(1, TestUtils.countEntityOfType(entities, "player"));
+        assertEquals(1, TestUtils.countEntityOfType(entities, "treasure"));
+        assertEquals(2, TestUtils.countEntityOfType(entities, "mercenary"));
+
+        res = controller.tick(Direction.RIGHT);
+        entities = res.getEntities();
+        assertEquals(0, TestUtils.countEntityOfType(entities, "treasure"));
+
+        res = controller.interact(TestUtils.getEntityAtPos(res, "mercenary", new Position(3, 1)).get().getId());
+        assertEquals(0, res.getInventory().size());
+
+        res = controller.tick(Direction.RIGHT);
+        res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBattles().size() != 0);
+
+        List<BattleResponse> battles = res.getBattles();
+        BattleResponse firstBattle = battles.get(0);
+
+        // This is the attack without the sword
+        double playerBaseAttack = Double.parseDouble(TestUtils.getValueFromConfigFile("player_attack", config));
+        double allyAttack = Double.parseDouble(TestUtils.getValueFromConfigFile("ally_attack", config));
+
+        RoundResponse firstRound = firstBattle.getRounds().get(0);
+
+        assertEquals((playerBaseAttack + allyAttack) / 5, -firstRound.getDeltaEnemyHealth(), 0.001);
+
+        double mercenaryAttack = Double.parseDouble(TestUtils.getValueFromConfigFile("mercenary_attack", config));
+        double allyDefence = Double.parseDouble(TestUtils.getValueFromConfigFile("ally_defence", config));
+        assertEquals((mercenaryAttack - allyDefence) / 10, -firstRound.getDeltaCharacterHealth(), 0.001);
     }
 }

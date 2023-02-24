@@ -4,7 +4,7 @@ import { TextButton } from "./TextButton";
 let muted = false;
 
 export function generateSceneWideSymbols(scene: Scene) {
-  const version = scene.add.text(scene.renderer.width - 5, scene.renderer.height - 15, "Version: 2022.09.20-1");
+  const version = scene.add.text(scene.renderer.width - 5, scene.renderer.height - 15, "Version: 2022.02.25-1");
   version.x -= version.width;
   version.y -= version.height;
   version.z = 9999;

@@ -227,4 +227,112 @@ public class PotionsTest {
         assertEquals(1, res.getBattles().size());
         assertEquals(1, res.getBattles().get(0).getRounds().size());
     }
+
+    @Test
+    @Tag("6-7")
+    @DisplayName("Test invisibility potions cause mercenaries to move randomly")
+    public void invisibilityMercenaryMovement() throws InvalidActionException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_potionsTest_invisibilityMercenaryMovement",
+                "c_potionsTest_invisibilityMercenaryMovement");
+
+        assertEquals(1, TestUtils.getEntities(res, "invisibility_potion").size());
+        assertEquals(0, TestUtils.getInventory(res, "invisibility_potion").size());
+        assertEquals(1, TestUtils.getEntities(res, "mercenary").size());
+
+        // pick up invisibility potion
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "invisibility_potion").size());
+        assertEquals(1, TestUtils.getInventory(res, "invisibility_potion").size());
+
+        // consume invincibility potion
+        res = dmc.tick(TestUtils.getFirstItemId(res, "invisibility_potion"));
+        assertEquals(0, TestUtils.getInventory(res, "invisibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invisibility_potion").size());
+
+        // check that distance between mercenary and player does not always
+        // decrease over time
+        Position playerPos = TestUtils.getEntities(res, "player").get(0).getPosition();
+        Position mercenaryPos = TestUtils.getEntities(res, "mercenary").get(0).getPosition();
+        int currentMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, mercenaryPos));
+        boolean movedAway = false;
+
+        for (int i = 0; i <= 10; i++) {
+            dmc.tick(Direction.DOWN);
+            mercenaryPos = TestUtils.getEntities(res, "mercenary").get(0).getPosition();
+            int endingMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, mercenaryPos));
+            if (endingMagnitude >= currentMagnitude) {
+                movedAway = true;
+            }
+            currentMagnitude = endingMagnitude;
+        }
+        assertTrue(movedAway);
+    }
+
+    @Test
+    @Tag("6-8")
+    @DisplayName("Test invincibility potion causes zombies to flee")
+    public void invincibilityPotionZombieMovement() throws InvalidActionException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_potionsTest_invincibilityZombieMovement",
+                "c_potionsTest_invincibilityZombieMovement");
+
+        assertEquals(1, TestUtils.getEntities(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
+
+        // pick up invisibility potion
+        res = dmc.tick(Direction.DOWN);
+        assertEquals(1, TestUtils.getInventory(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+
+        // consume invisibility potion
+        res = dmc.tick(TestUtils.getFirstItemId(res, "invincibility_potion"));
+        assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+
+        Position playerPos = TestUtils.getEntities(res, "player").get(0).getPosition();
+        Position zombiePos = TestUtils.getEntities(res, "zombie").get(0).getPosition();
+
+        int startingMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, zombiePos));
+
+        for (int i = 0; i <= 10; i++) {
+            dmc.tick(Direction.DOWN);
+            int endingMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, zombiePos));
+            assert (endingMagnitude >= startingMagnitude);
+        }
+    }
+
+    @Test
+    @Tag("6-8")
+    @DisplayName("Test invincibility potion causes mercenaries to flee")
+    public void invincibilityPotionMercenaryMovement() throws InvalidActionException {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_potionsTest_invincibilityMercenaryMovement",
+                "c_potionsTest_invincibilityMercenaryMovement");
+
+        assertEquals(1, TestUtils.getEntities(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
+
+        // pick up invisibility potion
+        res = dmc.tick(Direction.DOWN);
+        assertEquals(1, TestUtils.getInventory(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+
+        // consume invisibility potion
+        res = dmc.tick(TestUtils.getFirstItemId(res, "invincibility_potion"));
+        assertEquals(0, TestUtils.getInventory(res, "invincibility_potion").size());
+        assertEquals(0, TestUtils.getEntities(res, "invincibility_potion").size());
+
+        Position playerPos = TestUtils.getEntities(res, "player").get(0).getPosition();
+        Position mercPos = TestUtils.getEntities(res, "mercenary").get(0).getPosition();
+
+        int startingMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, mercPos));
+
+        for (int i = 0; i <= 10; i++) {
+            dmc.tick(Direction.DOWN);
+            int endingMagnitude = (int) Math.floor(TestUtils.getEuclideanDistance(playerPos, mercPos));
+            assert (endingMagnitude >= startingMagnitude);
+        }
+    }
+
 }

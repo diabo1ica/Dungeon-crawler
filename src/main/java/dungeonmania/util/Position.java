@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * DO NOT CHANGE THIS FILE
- * */
+ */
 public final class Position {
     public static final int FLOOR_LAYER = 0;
     public static final int ITEM_LAYER = 1;
@@ -84,6 +84,7 @@ public final class Position {
     /**
      * Calculates the position vector of b relative to a (ie. the direction from a
      * to b)
+     *
      * @return The relative position vector
      */
 
@@ -120,6 +121,7 @@ public final class Position {
 
     /**
      * Get cardinally adjacent positions only
+     *
      * @return
      */
     public List<Position> getCardinallyAdjacentPositions() {

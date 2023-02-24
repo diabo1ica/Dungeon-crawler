@@ -8,4 +8,5 @@
     "[java]": {
         "editor.detectIndentation": false
     },
+    "java.format.comments.enabled": false,
 }

@@ -34,7 +34,8 @@ public class EntityFactory {
         GameMap map = game.getMap();
         int tick = game.getTick();
         int rate = config.optInt("spider_spawn_interval", 0);
-        if (rate == 0 || (tick + 1) % rate != 0) return;
+        if (rate == 0 || (tick + 1) % rate != 0)
+            return;
         int radius = 20;
         Position player = map.getPlayer().getPosition();
 
@@ -43,10 +44,13 @@ public class EntityFactory {
         List<Position> availablePos = new ArrayList<>();
         for (int i = player.getX() - radius; i < player.getX() + radius; i++) {
             for (int j = player.getY() - radius; j < player.getY() + radius; j++) {
-                if (Position.calculatePositionBetween(player, new Position(i, j)).magnitude() > radius) continue;
+                if (Position.calculatePositionBetween(player, new Position(i, j)).magnitude() > radius)
+                    continue;
                 Position np = new Position(i, j);
-                if (!map.canMoveTo(dummySpider, np) || np.equals(player)) continue;
-                if (map.getEntities(np).stream().anyMatch(e -> e instanceof Enemy)) continue;
+                if (!map.canMoveTo(dummySpider, np) || np.equals(player))
+                    continue;
+                if (map.getEntities(np).stream().anyMatch(e -> e instanceof Enemy))
+                    continue;
                 availablePos.add(np);
             }
         }
@@ -61,13 +65,13 @@ public class EntityFactory {
         int tick = game.getTick();
         Random randGen = new Random();
         int spawnInterval = config.optInt("zombie_spawn_interval", ZombieToastSpawner.DEFAULT_SPAWN_INTERVAL);
-        if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0) return;
+        if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0)
+            return;
         List<Position> pos = spawner.getPosition().getCardinallyAdjacentPositions();
-        pos = pos
-            .stream()
-            .filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
-            .collect(Collectors.toList());
-        if (pos.size() == 0) return;
+        pos = pos.stream().filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
+                .collect(Collectors.toList());
+        if (pos.size() == 0)
+            return;
         ZombieToast zt = buildZombieToast(pos.get(randGen.nextInt(pos.size())));
         map.addEntity(zt);
         game.register(() -> zt.move(game), Game.AI_MOVEMENT, zt.getId());
@@ -100,11 +104,11 @@ public class EntityFactory {
         double mercenaryHealth = config.optDouble("mercenary_health", Mercenary.DEFAULT_HEALTH);
         double mercenaryAttack = config.optDouble("mercenary_attack", Mercenary.DEFAULT_ATTACK);
         double allyAttack = config.optDouble("ally_attack", Mercenary.DEFAULT_HEALTH);
-        double allyDefense = config.optDouble("ally_defense", Mercenary.DEFAULT_ATTACK);
+        double allyDefence = config.optDouble("ally_defence", Mercenary.DEFAULT_ATTACK);
         int mercenaryBribeAmount = config.optInt("bribe_amount", Mercenary.DEFAULT_BRIBE_AMOUNT);
         int mercenaryBribeRadius = config.optInt("bribe_radius", Mercenary.DEFAULT_BRIBE_RADIUS);
-        return new Mercenary(
-            pos, mercenaryHealth, mercenaryAttack, mercenaryBribeAmount, mercenaryBribeRadius, allyAttack, allyDefense);
+        return new Mercenary(pos, mercenaryHealth, mercenaryAttack, mercenaryBribeAmount, mercenaryBribeRadius,
+                allyAttack, allyDefence);
     }
 
     public Bow buildBow() {
@@ -148,13 +152,12 @@ public class EntityFactory {
             int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
             return new Bomb(pos, bombRadius);
         case "invisibility_potion":
-            int invisibilityPotionDuration = config.optInt(
-                "invisibility_potion_duration",
-                InvisibilityPotion.DEFAULT_DURATION);
+            int invisibilityPotionDuration = config.optInt("invisibility_potion_duration",
+                    InvisibilityPotion.DEFAULT_DURATION);
             return new InvisibilityPotion(pos, invisibilityPotionDuration);
         case "invincibility_potion":
             int invincibilityPotionDuration = config.optInt("invincibility_potion_duration",
-            InvincibilityPotion.DEFAULT_DURATION);
+                    InvincibilityPotion.DEFAULT_DURATION);
             return new InvincibilityPotion(pos, invincibilityPotionDuration);
         case "portal":
             return new Portal(pos, ColorCodedType.valueOf(jsonEntity.getString("colour")));

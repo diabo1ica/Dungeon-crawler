@@ -75,11 +75,6 @@ public class Game {
         return this;
     }
 
-    /**
-     * Battle between player and enemy
-     * @param player
-     * @param enemy
-     */
     public void battle(Player player, Enemy enemy) {
         battleFacade.battle(this, player, enemy);
         if (player.getBattleStatistics().getHealth() <= 0) {
@@ -110,10 +105,6 @@ public class Game {
         registerOnce(() -> ((Interactable) e).interact(player, this), PLAYER_MOVEMENT, "playerInteracts");
         tick();
         return this;
-    }
-
-    public <T extends Entity> long countEntities(Class<T> type) {
-        return map.countEntities(type);
     }
 
     public void register(Runnable r, int priority, String id) {
@@ -162,7 +153,6 @@ public class Game {
         addingSub = new PriorityQueue<>();
         sub = nextTickSub;
         tickCount++;
-        // update the weapons/potions duration
         return tickCount;
     }
 
@@ -174,16 +164,8 @@ public class Game {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Goal getGoals() {
@@ -218,15 +200,7 @@ public class Game {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public BattleFacade getBattleFacade() {
         return battleFacade;
-    }
-
-    public void setBattleFacade(BattleFacade battleFacade) {
-        this.battleFacade = battleFacade;
     }
 }

@@ -26,6 +26,10 @@ public class GameMap {
     /**
      * Initialise the game map
      * 1. pair up portals
+     * 2. register all movables
+     * 3. register all spawners
+     * 4. register bombs and switches
+     * 5. more...
      */
     public void init() {
         initPairPortals();
@@ -238,10 +242,6 @@ public class GameMap {
 
     public <T extends Entity> List<T> getEntities(Class<T> type) {
         return getEntities().stream().filter(type::isInstance).map(type::cast).collect(Collectors.toList());
-    }
-
-    public <T extends Entity> long countEntities(Class<T> type) {
-        return getEntities().stream().filter(type::isInstance).count();
     }
 
     public Player getPlayer() {
