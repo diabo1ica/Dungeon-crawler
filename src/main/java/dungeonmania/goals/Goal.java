@@ -76,9 +76,8 @@ public class Goal {
             else
                 return "(" + goal1.toString(game) + " OR " + goal2.toString(game) + ")";
         default:
-            break;
+            return "";
         }
-        return "";
     }
 
 }

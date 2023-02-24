@@ -18,7 +18,6 @@ public class ComplexGoalsTest {
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_complexGoalsTest_andAll", "c_complexGoalsTest_andAll");
 
-        System.out.println(TestUtils.getGoals(res));
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
         assertTrue(TestUtils.getGoals(res).contains(":boulders"));

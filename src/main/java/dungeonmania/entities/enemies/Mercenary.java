@@ -26,17 +26,17 @@ public class Mercenary extends Enemy implements Interactable {
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
 
     private double allyAttack;
-    private double allyDefense;
+    private double allyDefence;
     private boolean allied = false;
     private boolean isAdjacentToPlayer = false;
 
     public Mercenary(Position position, double health, double attack, int bribeAmount, int bribeRadius,
-            double allyAttack, double allyDefense) {
+            double allyAttack, double allyDefence) {
         super(position, health, attack);
         this.bribeAmount = bribeAmount;
         this.bribeRadius = bribeRadius;
         this.allyAttack = allyAttack;
-        this.allyDefense = allyDefense;
+        this.allyDefence = allyDefence;
     }
 
     public boolean isAllied() {
@@ -143,6 +143,6 @@ public class Mercenary extends Enemy implements Interactable {
     public BattleStatistics getBattleStatistics() {
         if (!allied)
             return super.getBattleStatistics();
-        return new BattleStatistics(0, allyAttack, allyDefense, 1, 1);
+        return new BattleStatistics(0, allyAttack, allyDefence, 1, 1);
     }
 }

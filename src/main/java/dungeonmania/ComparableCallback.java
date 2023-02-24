@@ -63,8 +63,4 @@ public class ComparableCallback implements Comparable<ComparableCallback>, Runna
     public boolean isValid() {
         return isValid;
     }
-
-    public boolean isOnce() {
-        return once;
-    }
 }
