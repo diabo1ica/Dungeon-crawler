@@ -14,6 +14,7 @@ import dungeonmania.util.Position;
 import dungeonmania.entities.enemies.Mercenary;
 
 public class MercenaryMovement implements Movement {
+
     public void move(GameMap map, Entity entity) {
         Mercenary ent = (Mercenary) entity;
         Player player = map.getPlayer();
