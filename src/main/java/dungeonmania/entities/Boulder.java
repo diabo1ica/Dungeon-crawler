@@ -5,7 +5,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Boulder extends Entity {
+public class Boulder extends Entity implements OverlapBehaviour {
 
     public Boulder(Position position) {
         super(position.asLayer(Entity.CHARACTER_LAYER));
@@ -31,15 +31,5 @@ public class Boulder extends Entity {
             if (!e.canMoveOnto(map, this)) return false;
         }
         return true;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
     }
 }

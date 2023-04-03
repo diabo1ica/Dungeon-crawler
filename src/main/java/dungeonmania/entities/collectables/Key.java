@@ -1,12 +1,13 @@
 package dungeonmania.entities.collectables;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.OverlapBehaviour;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Key extends Entity implements InventoryItem {
+public class Key extends Entity implements InventoryItem, OverlapBehaviour {
     private int number;
 
     public Key(Position position, int number) {
@@ -26,16 +27,6 @@ public class Key extends Entity implements InventoryItem {
                 return;
             map.destroyEntity(this);
         }
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
     }
 
     public int getnumber() {

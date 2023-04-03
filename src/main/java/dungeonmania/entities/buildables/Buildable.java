@@ -10,19 +10,4 @@ public abstract class Buildable extends Entity implements InventoryItem, BattleI
     public Buildable(Position position) {
         super(position);
     }
-
-    @Override
-    public void onOverlap(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
-    }
 }

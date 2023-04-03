@@ -1,14 +1,18 @@
 package dungeonmania.entities.enemies;
 
+import javax.security.auth.Destroyable;
+
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
+import dungeonmania.entities.DestroyedBehaviour;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.OverlapBehaviour;
 import dungeonmania.entities.Player;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public abstract class Enemy extends Entity implements Battleable {
+public abstract class Enemy extends Entity implements Battleable, OverlapBehaviour, DestroyedBehaviour {
     private BattleStatistics battleStatistics;
 
     public Enemy(Position position, double health, double attack) {
@@ -39,11 +43,6 @@ public abstract class Enemy extends Entity implements Battleable {
     public void onDestroy(GameMap map) {
         Game g = map.getGame();
         g.unsubscribe(getId());
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
     }
 
     public abstract void move(Game game);
