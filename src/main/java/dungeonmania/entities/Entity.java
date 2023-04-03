@@ -18,6 +18,7 @@ public abstract class Entity {
     private Direction facing;
     private String entityId;
 
+    // constructor
     public Entity(Position position) {
         this.position = position;
         this.previousPosition = position;
