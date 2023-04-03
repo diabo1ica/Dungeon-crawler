@@ -1,13 +1,14 @@
 package dungeonmania.entities.enemies;
 
 import dungeonmania.Game;
+import dungeonmania.entities.DestroyedBehaviour;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class ZombieToastSpawner extends Entity implements Interactable {
+public class ZombieToastSpawner extends Entity implements Interactable, DestroyedBehaviour {
     public static final int DEFAULT_SPAWN_INTERVAL = 0;
 
     public ZombieToastSpawner(Position position, int spawnInterval) {
@@ -32,15 +33,5 @@ public class ZombieToastSpawner extends Entity implements Interactable {
     @Override
     public boolean isInteractable(Player player) {
         return Position.isAdjacent(player.getPosition(), getPosition()) && player.hasWeapon();
-    }
-
-    @Override
-    public void onOverlap(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
     }
 }

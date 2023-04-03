@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.OverlapBehaviour;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Entity implements InventoryItem {
+public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
     public enum State {
         SPAWNED, INVENTORY, PLACED
     }
@@ -53,16 +54,6 @@ public class Bomb extends Entity implements InventoryItem {
             map.destroyEntity(this);
         }
         this.state = State.INVENTORY;
-    }
-
-    @Override
-    public void onMovedAway(GameMap map, Entity entity) {
-        return;
-    }
-
-    @Override
-    public void onDestroy(GameMap gameMap) {
-        return;
     }
 
     public void onPutDown(GameMap map, Position p) {
