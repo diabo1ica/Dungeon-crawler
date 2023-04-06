@@ -119,8 +119,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
             inEffective = null;
             state = PotionStateChanger.transition(inEffective);
             return;
-        }
-        else {
+        } else {
             inEffective = queue.remove();
             state = PotionStateChanger.transition(inEffective);
         }

@@ -75,7 +75,7 @@ public class ComplexGoalsTest {
 
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
-
+        
         // move player onto exit
         res = dmc.tick(Direction.RIGHT);
 

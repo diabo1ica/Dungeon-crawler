@@ -6,11 +6,9 @@ public class PotionStateChanger {
     public static PlayerState transition(Potion inEffective) {
         if (inEffective == null) {
             return new BaseState();
-        }
-        else if (inEffective instanceof InvisibilityPotion) {
+        } else if (inEffective instanceof InvisibilityPotion) {
             return new InvisibleState();
-        }
-        else {
+        } else {
             return new InvincibleState();
         }
     }
