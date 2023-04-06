@@ -19,10 +19,10 @@ public class Treasure extends Entity implements InventoryItem, OverlapBehaviour 
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this))
-                return;
-            map.destroyEntity(this);
-        }
+        // if (entity instanceof Player) {
+        //     if (!((Player) entity).pickUp(this))
+        //         return;
+        //     map.destroyEntity(this);
+        // }
     }
 }

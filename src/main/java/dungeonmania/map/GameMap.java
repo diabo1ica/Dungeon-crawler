@@ -23,6 +23,11 @@ import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
+import dungeonmania.entities.inventory.InventoryItem;
+import dungeonmania.entities.ExplosiveItem;
+
+import dungeonmania.entities.collectables.*;
+
 public class GameMap {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
@@ -125,7 +130,18 @@ public class GameMap {
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity && e instanceof OverlapBehaviour) {
                 OverlapBehaviour ent = (OverlapBehaviour) e;
-                overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+                // for Bomb
+                if (e instanceof ExplosiveItem && entity instanceof Player) {
+                    overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+                    // for InventoryItem
+                } else if (e instanceof InventoryItem && entity instanceof Player) {
+                    Player p = (Player) entity;
+                    overlapCallbacks.add(() -> p.pickUp(e));
+                    overlapCallbacks.add(() -> this.destroyEntity(e));
+                    // for everything else (non collectables)
+                } else {
+                    overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+                }
             }
         });
         overlapCallbacks.forEach(callback -> {
