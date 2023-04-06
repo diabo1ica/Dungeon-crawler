@@ -36,6 +36,10 @@ public class Bomb extends Entity implements InventoryItem, ExplosiveItem, Overla
         this.subs.add(s);
     }
 
+    public List<Switch> getSubs() {
+        return subs;
+    }
+
     public void notify(GameMap map) {
         explode(map);
     }
@@ -47,15 +51,15 @@ public class Bomb extends Entity implements InventoryItem, ExplosiveItem, Overla
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (state != State.SPAWNED)
-            return;
-        if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this))
-                return;
-            subs.stream().forEach(s -> s.unsubscribe(this));
-            map.destroyEntity(this);
-        }
-        this.state = State.INVENTORY;
+        // if (state != State.SPAWNED)
+        //     return;
+        // if (entity instanceof Player) {
+        //     if (!((Player) entity).pickUp(this))
+        //         return;
+        //     subs.stream().forEach(s -> s.unsubscribe(this));
+        //     map.destroyEntity(this);
+        // }
+        // this.state = State.INVENTORY;
     }
 
     public void onPutDown(GameMap map, Position p) {

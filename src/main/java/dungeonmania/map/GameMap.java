@@ -26,7 +26,7 @@ import dungeonmania.util.Position;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.ExplosiveItem;
 
-import dungeonmania.entities.collectables.*;
+import dungeonmania.entities.collectables.Bomb;
 
 public class GameMap {
     private Game game;
@@ -132,12 +132,22 @@ public class GameMap {
                 OverlapBehaviour ent = (OverlapBehaviour) e;
                 // for Bomb
                 if (e instanceof ExplosiveItem && entity instanceof Player) {
-                    overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+                    Bomb b = (Bomb) e;
+                    if (b.getState() != Bomb.State.SPAWNED) {
+                        return;
+                    }
+                    Player p = (Player) entity;
+                    if (p.pickUp(e)) {
+                        b.getSubs().stream().forEach(s -> s.unsubscribe(b));
+                        overlapCallbacks.add(() -> this.destroyEntity(e));
+                    }
+                    // overlapCallbacks.add(() -> ent.onOverlap(this, entity));
                     // for InventoryItem
                 } else if (e instanceof InventoryItem && entity instanceof Player) {
                     Player p = (Player) entity;
-                    overlapCallbacks.add(() -> p.pickUp(e));
-                    overlapCallbacks.add(() -> this.destroyEntity(e));
+                    if (p.pickUp(e)) {
+                        overlapCallbacks.add(() -> this.destroyEntity(e));
+                    }
                     // for everything else (non collectables)
                 } else {
                     overlapCallbacks.add(() -> ent.onOverlap(this, entity));
