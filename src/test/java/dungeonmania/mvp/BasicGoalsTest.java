@@ -17,7 +17,7 @@ public class BasicGoalsTest {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_basicGoalsTest_exit", "c_basicGoalsTest_exit");
-        
+
         // move player to right
         res = dmc.tick(Direction.RIGHT);
 
