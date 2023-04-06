@@ -73,7 +73,13 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     }
 
     @Override
-    public void onOverlap(GameMap map, Entity entity) {
+    public void onOverlap(GameMap map, Entity entity, Entity item) {
+
+        if (item instanceof InventoryItem) {
+            OverlapBehaviour strategy = new handleOverlapInventory();
+            strategy.onOverlap(map, this, item);
+        }
+
         if (entity instanceof Enemy) {
             if (entity instanceof Mercenary) {
                 if (((Mercenary) entity).isAllied()) return;
@@ -92,6 +98,9 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     }
 
     public boolean pickUp(Entity item) {
+        // if item is of Collectable items
+
+        // if item is a treasure
         if (item instanceof Treasure) collectedTreasureCount++;
         return inventory.add((InventoryItem) item);
     }

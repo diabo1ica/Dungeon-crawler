@@ -10,10 +10,11 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.OverlapBehaviour;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
+import dungeonmania.entities.explosive.ExplosiveItem;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
+public class Bomb extends Entity implements InventoryItem, ExplosiveItem {
     public enum State {
         SPAWNED, INVENTORY, PLACED
     }
@@ -32,6 +33,10 @@ public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
 
     public void subscribe(Switch s) {
         this.subs.add(s);
+    }
+
+    public State getState() {
+        return state;
     }
 
     public void notify(GameMap map) {

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
+
 import javax.security.auth.DestroyFailedException;
 
 import dungeonmania.Game;
@@ -20,8 +21,23 @@ import dungeonmania.entities.Switch;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
+import dungeonmania.entities.explosive.ExplosiveItem;
+import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+
+import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.Battleable;
+import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.collectables.potions.InvincibilityPotion;
+import dungeonmania.entities.collectables.potions.Potion;
+import dungeonmania.entities.enemies.Mercenary;
+import dungeonmania.entities.inventory.Inventory;
+import dungeonmania.entities.playerState.BaseState;
+import dungeonmania.entities.playerState.PlayerState;
+import dungeonmania.map.GameMap;
+
+import dungeonmania.entities.handleOverlapInventory;
 
 public class GameMap {
     private Game game;
@@ -123,15 +139,50 @@ public class GameMap {
     private void triggerOverlapEvent(Entity entity) {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
+
+            OverlapBehaviour strategy = new handleOverlapInventory();
+
             if (e != entity && e instanceof OverlapBehaviour) {
-                OverlapBehaviour ent = (OverlapBehaviour) e;
-                overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+                if (entity instanceof Player) {
+                    Player p = (Player) entity;
+                    if (e instanceof ExplosiveItem) {
+                        Bomb b = (Bomb) e;
+                        overlapCallbacks.add(() -> b.onOverlap(this, entity));
+                    } else if (e instanceof InventoryItem) {
+                        strategy = new handleOverlapInventory();
+                    }
+                    strategy.onOverlap(this, entity, e);
+                    overlapCallbacks.add(() -> p.onOverlap(this, (Player) entity, (Entity) e));
+                }
             }
+
         });
+
         overlapCallbacks.forEach(callback -> {
             callback.run();
         });
     }
+
+    /*
+    private void triggerOverlapEvent(Entity entity) {
+        List<Runnable> overlapCallbacks = new ArrayList<>();
+        getEntities(entity.getPosition()).forEach(e -> {
+    
+            if (e != entity && e instanceof OverlapBehaviour) {
+                OverlapBehaviour ent = (OverlapBehaviour) e;
+    
+                System.out.println("the overlapping class is " + ent.getClass());
+    
+                overlapCallbacks.add(() -> ent.onOverlap(this, entity));
+            }
+    
+        });
+    
+        overlapCallbacks.forEach(callback -> {
+            callback.run();
+        });
+    }
+    */
 
     public boolean canMoveTo(Entity entity, Position position) {
         return !nodes.containsKey(position) || nodes.get(position).canMoveOnto(this, entity);

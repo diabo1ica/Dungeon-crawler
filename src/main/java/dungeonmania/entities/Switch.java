@@ -7,7 +7,7 @@ import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Switch extends Entity implements OverlapBehaviour, MovedAwayBehaviour {
+public class Switch extends Entity implements MovedAwayBehaviour {
     private boolean activated;
     private List<Bomb> bombs = new ArrayList<>();
 
@@ -35,7 +35,6 @@ public class Switch extends Entity implements OverlapBehaviour, MovedAwayBehavio
         return true;
     }
 
-    @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Boulder) {
             activated = true;
