@@ -8,7 +8,6 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Treasure;
-import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.Mercenary;
@@ -16,6 +15,7 @@ import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.playerState.BaseState;
 import dungeonmania.entities.playerState.PlayerState;
+import dungeonmania.entities.playerState.PotionStateChanger;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -42,7 +42,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
                 BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
                 BattleStatistics.DEFAULT_PLAYER_DAMAGE_REDUCER);
         inventory = new Inventory();
-        state = new BaseState(this);
+        state = new BaseState();
     }
 
     public int getCollectedTreasureCount() {
@@ -117,20 +117,14 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     public void triggerNext(int currentTick) {
         if (queue.isEmpty()) {
             inEffective = null;
-            state.transitionBase();
+            state = PotionStateChanger.transition(inEffective);
             return;
         }
-        inEffective = queue.remove();
-        if (inEffective instanceof InvincibilityPotion) {
-            state.transitionInvincible();
-        } else {
-            state.transitionInvisible();
+        else {
+            inEffective = queue.remove();
+            state = PotionStateChanger.transition(inEffective);
         }
         nextTrigger = currentTick + inEffective.getDuration();
-    }
-
-    public void changeState(PlayerState playerState) {
-        state = playerState;
     }
 
     public void use(Potion potion, int tick) {
@@ -160,26 +154,8 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
         return inventory.count(itemType);
     }
 
+    // Apply potion state as buff
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        if (state.isInvincible()) {
-            return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                true,
-                true));
-        } else if (state.isInvisible()) {
-            return BattleStatistics.applyBuff(origin, new BattleStatistics(
-                0,
-                0,
-                0,
-                1,
-                1,
-                false,
-                false));
-        }
-        return origin;
+        return state.applyState(origin);
     }
 }
