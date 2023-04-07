@@ -1,7 +1,5 @@
 package dungeonmania.entities.enemies;
 
-import javax.security.auth.Destroyable;
-
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;

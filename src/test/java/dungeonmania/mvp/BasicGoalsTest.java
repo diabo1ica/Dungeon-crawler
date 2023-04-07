@@ -26,7 +26,6 @@ public class BasicGoalsTest {
 
         // move player to exit
         res = dmc.tick(Direction.RIGHT);
-
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
     }

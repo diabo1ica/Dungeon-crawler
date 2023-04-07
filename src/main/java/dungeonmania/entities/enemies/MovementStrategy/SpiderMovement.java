@@ -16,7 +16,6 @@ public class SpiderMovement implements Movement {
         int nextPositionElement = ent.getNextPositionElement();
         Position nextPos = movementTrajectory.get(nextPositionElement);
         List<Entity> entities = map.getEntities(nextPos);
-        // TODO: Check each condition below
         if (entities != null && entities.size() > 0 && entities.stream().anyMatch(e -> e instanceof Boulder)) {
             ent.setForward();
             ent.updateNextPosition();
