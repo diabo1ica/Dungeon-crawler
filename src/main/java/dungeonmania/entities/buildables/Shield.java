@@ -4,7 +4,7 @@ import dungeonmania.Game;
 import dungeonmania.entities.BattleItem;
 import dungeonmania.battles.BattleStatistics;
 
-public class Shield extends Buildable implements BattleItem{
+public class Shield extends Buildable implements BattleItem {
     private double defence;
 
     public Shield(int durability, double defence) {

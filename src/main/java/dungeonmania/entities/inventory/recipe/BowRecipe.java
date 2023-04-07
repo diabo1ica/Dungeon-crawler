@@ -7,12 +7,12 @@ import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.collectables.Arrow;
 
 public class BowRecipe implements Recipe {
-    private final int WOOD_NEEDED = 1;
-    private final int ARROWS_NEEDED = 3;
+    private static final int WOOD = 1;
+    private static final int ARROWS = 3;
 
     public boolean checkIngredients(List<InventoryItem> items) {
-        if (getItemsInInventory(Wood.class, items).size() >= WOOD_NEEDED &&
-        getItemsInInventory(Arrow.class, items).size() >= ARROWS_NEEDED) {
+        if (getItemsInInventory(Wood.class, items).size() >= WOOD
+        && getItemsInInventory(Arrow.class, items).size() >= ARROWS) {
             return true;
         }
         return false;

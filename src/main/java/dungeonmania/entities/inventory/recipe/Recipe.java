@@ -13,7 +13,7 @@ public interface Recipe {
 
     public InventoryItem craftItem(EntityFactory factory);
 
-    public default <T> List<T> getItemsInInventory(Class<T> clz ,List<InventoryItem> items) {
+    public default <T> List<T> getItemsInInventory(Class<T> clz, List<InventoryItem> items) {
         return items.stream().filter(clz::isInstance).map(clz::cast).collect(Collectors.toList());
     }
 }

@@ -8,14 +8,14 @@ import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.Key;
 
 public class ShieldRecipe implements Recipe {
-    private final int WOOD_NEEDED = 2;
-    private final int TREASURE_NEEDED = 1;
-    private final int KEY_NEEDED = 1;
+    private static final int WOOD = 2;
+    private static final int TREASURE = 1;
+    private static final int KEY = 1;
 
     public boolean checkIngredients(List<InventoryItem> items) {
-        if (getItemsInInventory(Wood.class, items).size() >= WOOD_NEEDED &&
-        (getItemsInInventory(Treasure.class, items).size() >= TREASURE_NEEDED ||
-        getItemsInInventory(Key.class, items).size() >= KEY_NEEDED)) {
+        if (getItemsInInventory(Wood.class, items).size() >= WOOD
+        && (getItemsInInventory(Treasure.class, items).size() >= TREASURE
+        || getItemsInInventory(Key.class, items).size() >= KEY)) {
             return true;
         }
         return false;

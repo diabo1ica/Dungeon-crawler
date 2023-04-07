@@ -7,8 +7,8 @@ import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.inventory.recipe.*;;
 
 public class Craft {
-    Recipe recipe;
-    List<String> recipeList = Arrays.asList("bow", "shield");
+    private Recipe recipe;
+    private List<String> recipeList = Arrays.asList("bow", "shield");
 
     public boolean validInventory(List<InventoryItem> items, String item) {
         switch (item) {

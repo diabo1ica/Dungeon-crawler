@@ -5,7 +5,7 @@ import dungeonmania.entities.inventory.InventoryItem;
 
 public abstract class Buildable extends Entity implements InventoryItem {
     private int durability;
-    
+
     public Buildable(int durability) {
         super(null);
         this.durability = durability;
