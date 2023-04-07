@@ -40,6 +40,7 @@ public abstract class Enemy extends Entity implements Battleable, OverlapBehavio
     @Override
     public void onDestroy(GameMap map) {
         Game g = map.getGame();
+        // increase kill count
         g.unsubscribe(getId());
     }
 
