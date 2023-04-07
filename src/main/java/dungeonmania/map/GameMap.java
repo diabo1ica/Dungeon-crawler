@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
-import javax.security.auth.DestroyFailedException;
-
 import dungeonmania.Game;
 import dungeonmania.entities.DestroyedBehaviour;
 import dungeonmania.entities.Entity;
