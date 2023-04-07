@@ -3,7 +3,6 @@ package dungeonmania.entities.enemies;
 import java.util.List;
 
 import dungeonmania.Game;
-import dungeonmania.entities.Boulder;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.enemies.MovementStrategy.SpiderMovement;
 import dungeonmania.entities.enemies.MovementStrategy.Movement;

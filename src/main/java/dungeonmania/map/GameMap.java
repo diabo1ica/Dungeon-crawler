@@ -22,9 +22,11 @@ import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import dungeonmania.entities.collectables.potions.Potion;
 
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.ExplosiveItem;
+import dungeonmania.entities.BattleItem;
 
 import dungeonmania.entities.collectables.Bomb;
 
@@ -128,28 +130,18 @@ public class GameMap {
     private void triggerOverlapEvent(Entity entity) {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
-            if (e != entity && e instanceof OverlapBehaviour) {
-                OverlapBehaviour ent = (OverlapBehaviour) e;
-                // for Bomb
-                if (e instanceof ExplosiveItem && entity instanceof Player) {
-                    Bomb b = (Bomb) e;
-                    if (b.getState() != Bomb.State.SPAWNED) {
-                        return;
+            if (e != entity) {
+                // only Player can collect collectables
+                if (entity instanceof Player) {
+                    if (e instanceof ExplosiveItem) {
+                        handleOverlapExplosive(overlapCallbacks, entity, e);
+                    } else if (e instanceof InventoryItem) {
+                        handleOverlapInventory(overlapCallbacks, entity, e);
                     }
-                    Player p = (Player) entity;
-                    if (p.pickUp(e)) {
-                        b.getSubs().stream().forEach(s -> s.unsubscribe(b));
-                        overlapCallbacks.add(() -> this.destroyEntity(e));
-                    }
-                    // overlapCallbacks.add(() -> ent.onOverlap(this, entity));
-                    // for InventoryItem
-                } else if (e instanceof InventoryItem && entity instanceof Player) {
-                    Player p = (Player) entity;
-                    if (p.pickUp(e)) {
-                        overlapCallbacks.add(() -> this.destroyEntity(e));
-                    }
-                    // for everything else (non collectables)
-                } else {
+                }
+                // Player, Zombie, etc can interact with non-collectables
+                if (e instanceof OverlapBehaviour) {
+                    OverlapBehaviour ent = (OverlapBehaviour) e;
                     overlapCallbacks.add(() -> ent.onOverlap(this, entity));
                 }
             }
@@ -157,6 +149,26 @@ public class GameMap {
         overlapCallbacks.forEach(callback -> {
             callback.run();
         });
+    }
+
+    public void handleOverlapExplosive(List<Runnable> overlapCallbacks, Entity mover, Entity item) {
+        Bomb b = (Bomb) item;
+        if (b.getState() != Bomb.State.SPAWNED) {
+            return;
+        }
+
+        Player p = (Player) mover;
+        if (p.pickUp(b)) {
+            b.getSubs().stream().forEach(s -> s.unsubscribe(b));
+            overlapCallbacks.add(() -> this.destroyEntity(b));
+        }
+    }
+
+    public void handleOverlapInventory(List<Runnable> overlapCallbacks, Entity mover, Entity item) {
+        Player p = (Player) mover;
+        if (p.pickUp(item)) {
+            overlapCallbacks.add(() -> this.destroyEntity(item));
+        }
     }
 
     public boolean canMoveTo(Entity entity, Position position) {

@@ -8,7 +8,7 @@ import dungeonmania.entities.enemies.ZombieToast;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Portal extends Entity implements OverlapBehaviour{
+public class Portal extends Entity implements OverlapBehaviour {
     private ColorCodedType color;
     private Portal pair;
 
@@ -24,6 +24,10 @@ public class Portal extends Entity implements OverlapBehaviour{
         if (entity instanceof Player || entity instanceof Mercenary)
             return pair.canTeleportTo(map, entity);
         return true;
+    }
+
+    public Portal getPair() {
+        return pair;
     }
 
     public boolean canTeleportTo(GameMap map, Entity entity) {
@@ -49,6 +53,10 @@ public class Portal extends Entity implements OverlapBehaviour{
         if (destination != null) {
             map.moveTo(entity, destination);
         }
+    }
+
+    public void tele(GameMap map, Entity entity) {
+        doTeleport(map, entity);
     }
 
     public String getColor() {
