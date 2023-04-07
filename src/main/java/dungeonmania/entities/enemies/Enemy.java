@@ -38,6 +38,7 @@ public abstract class Enemy extends Entity implements Battleable, DestroyedBehav
     @Override
     public void onDestroy(GameMap map) {
         Game g = map.getGame();
+        // increase kill count
         g.unsubscribe(getId());
     }
 

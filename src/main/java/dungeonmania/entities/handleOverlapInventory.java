@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package dungeonmania.entities;
 
 import dungeonmania.map.GameMap;
@@ -12,3 +13,13 @@ public class handleOverlapInventory implements OverlapBehaviour {
         }
     }
 }
+=======
+// package dungeonmania.entities;
+
+// public class handleOverlapInventory {
+//     @Override
+//     public void onOverlap() {
+
+//     }
+// }
+>>>>>>> 29d9095c6e9e035b36c3426709734fae6d3d9fda

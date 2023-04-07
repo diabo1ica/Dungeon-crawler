@@ -49,7 +49,6 @@ public class GameBuilder {
         buildMap(game);
         buildGoals(game);
         game.init();
-
         return game;
     }
 

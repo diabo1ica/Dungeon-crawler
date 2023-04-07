@@ -1,22 +1,21 @@
 package dungeonmania.entities.buildables;
 
 import dungeonmania.Game;
+import dungeonmania.entities.BattleItem;
 import dungeonmania.battles.BattleStatistics;
 
-public class Shield extends Buildable {
-    private int durability;
+public class Shield extends Buildable implements BattleItem {
     private double defence;
 
     public Shield(int durability, double defence) {
-        super(null);
-        this.durability = durability;
+        super(durability);
         this.defence = defence;
     }
 
     @Override
     public void use(Game game) {
-        durability--;
-        if (durability <= 0) {
+        reduceDurability();
+        if (getDurabilityStat() <= 0) {
             game.getPlayer().remove(this);
         }
     }
@@ -28,7 +27,7 @@ public class Shield extends Buildable {
 
     @Override
     public int getDurability() {
-        return durability;
+        return getDurabilityStat();
     }
 
 }
