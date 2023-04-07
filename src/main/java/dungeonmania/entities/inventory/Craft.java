@@ -6,6 +6,7 @@ import java.util.List;
 import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.inventory.recipe.*;;
 
+// nehimomo
 public class Craft {
     private Recipe recipe;
     private List<String> recipeList = Arrays.asList("bow", "shield");
