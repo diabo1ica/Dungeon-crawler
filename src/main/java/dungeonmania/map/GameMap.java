@@ -20,13 +20,10 @@ import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import dungeonmania.entities.collectables.potions.Potion;
 
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.ExplosiveItem;
-import dungeonmania.entities.BattleItem;
 
-import dungeonmania.entities.collectables.Bomb;
 
 public class GameMap {
     private Game game;
