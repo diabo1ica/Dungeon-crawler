@@ -20,7 +20,7 @@ import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-
+import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.ExplosiveItem;
 
@@ -126,14 +126,9 @@ public class GameMap {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
             if (e != entity) {
-                // only Player can collect collectables
-                if (entity instanceof Player) {
-                    if (e instanceof ExplosiveItem) {
-                        handleOverlapExplosive(overlapCallbacks, entity, e);
-                    } else if (e instanceof InventoryItem) {
-                        handleOverlapInventory(overlapCallbacks, entity, e);
-                    }
-                }
+                // Only Player can collect collectables
+                if (entity instanceof Player)
+                    handleOverlap(overlapCallbacks, entity, e);
                 // Player, Zombie, etc can interact with non-collectables
                 if (e instanceof OverlapBehaviour) {
                     OverlapBehaviour ent = (OverlapBehaviour) e;
@@ -144,6 +139,14 @@ public class GameMap {
         overlapCallbacks.forEach(callback -> {
             callback.run();
         });
+    }
+
+    public void handleOverlap(List<Runnable> overlapCallbacks, Entity mover, Entity item) {
+        if (item instanceof ExplosiveItem) {
+            handleOverlapExplosive(overlapCallbacks, mover, item);
+        } else if (item instanceof InventoryItem) {
+            handleOverlapInventory(overlapCallbacks, mover, item);
+        }
     }
 
     public void handleOverlapExplosive(List<Runnable> overlapCallbacks, Entity mover, Entity item) {
