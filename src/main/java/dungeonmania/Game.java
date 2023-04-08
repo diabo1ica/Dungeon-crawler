@@ -203,4 +203,13 @@ public class Game {
     public BattleFacade getBattleFacade() {
         return battleFacade;
     }
+
+    public int getPlayersKillCount() {
+        return player.getKillCount();
+    }
+
+    public int getSpawnerCount() {
+        return map.getSpawnerCount();
+    }
+
 }

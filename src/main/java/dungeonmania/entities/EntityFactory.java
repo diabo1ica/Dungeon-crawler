@@ -68,7 +68,8 @@ public class EntityFactory {
         if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0)
             return;
         List<Position> pos = spawner.getPosition().getCardinallyAdjacentPositions();
-        pos = pos.stream().filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
+        pos = pos.stream().filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall
+        || e instanceof Player)))
                 .collect(Collectors.toList());
         if (pos.size() == 0)
             return;

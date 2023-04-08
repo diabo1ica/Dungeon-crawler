@@ -163,4 +163,41 @@ public class ComplexGoalsTest {
         assertTrue(TestUtils.getGoals(res).contains(":exit"));
         assertTrue(TestUtils.getGoals(res).contains(":boulders"));
     }
+
+    @Test
+    @Tag("14-7")
+    @DisplayName("Testing enemies goal with another goal")
+    public void enemyTreasure() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_goalTest_enemy_AND", "c_goalTest_enemy_AND");
+        String spawnerId = TestUtils.getEntities(res, "zombie_toast_spawner").get(0).getId();
+        assertEquals(1, TestUtils.countType(res, "sword"));
+        assertEquals(1, TestUtils.countType(res, "treasure"));
+
+        // move player to right
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.countType(res, "sword"));
+
+        // assert goal not met
+        assertTrue(TestUtils.getGoals(res).contains(":enemies"));
+        assertTrue(TestUtils.getGoals(res).contains(":treasure"));
+        assertEquals(1, TestUtils.countType(res, "zombie_toast"));
+
+        // move player to right
+        res = dmc.tick(Direction.RIGHT);
+
+        // Zombie slain but assert goal not met yet
+        assertTrue(TestUtils.getGoals(res).contains(":enemies"));
+        assertTrue(!TestUtils.getGoals(res).contains(":treasure"));
+        assertEquals(0, TestUtils.countType(res, "zombie_toast"));
+        assertEquals(0, TestUtils.countType(res, "treasure"));
+
+        // Interact with spawner
+        res = assertDoesNotThrow(() -> dmc.interact(spawnerId));
+
+        // Zombie slain and spawner destroyed
+        assertEquals("", TestUtils.getGoals(res));
+        assertEquals(0, TestUtils.countType(res, "zombie_toast_spawner"));
+    }
 }

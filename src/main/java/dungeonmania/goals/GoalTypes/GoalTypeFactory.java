@@ -13,6 +13,8 @@ public class GoalTypeFactory {
                 return new GoalBoulders();
             case "treasure":
                 return new GoalTreasure();
+            case "enemies":
+                return new GoalEnemy();
             default:
                 return null;
         }
