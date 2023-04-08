@@ -123,7 +123,7 @@ public class BasicGoalsTest {
     }
 
     @Test
-    @Tag("13-4")
+    @Tag("13-5")
     @DisplayName("Test enemy goal condition")
     public void enemy() {
         DungeonManiaController dmc;
