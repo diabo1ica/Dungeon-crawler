@@ -26,6 +26,10 @@ public class Portal extends Entity implements OverlapBehaviour {
         return true;
     }
 
+    public Portal getPair() {
+        return pair;
+    }
+
     public boolean canTeleportTo(GameMap map, Entity entity) {
         List<Position> neighbours = getPosition().getCardinallyAdjacentPositions();
         return neighbours.stream().allMatch(n -> map.canMoveTo(entity, n));
@@ -49,6 +53,10 @@ public class Portal extends Entity implements OverlapBehaviour {
         if (destination != null) {
             map.moveTo(entity, destination);
         }
+    }
+
+    public void tele(GameMap map, Entity entity) {
+        doTeleport(map, entity);
     }
 
     public String getColor() {

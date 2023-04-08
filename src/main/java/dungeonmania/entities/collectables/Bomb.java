@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.OverlapBehaviour;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
+import dungeonmania.entities.ExplosiveItem;
+
+public class Bomb extends Entity implements InventoryItem, ExplosiveItem {
     public enum State {
         SPAWNED, INVENTORY, PLACED
     }
@@ -34,6 +35,10 @@ public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
         this.subs.add(s);
     }
 
+    public List<Switch> getSubs() {
+        return subs;
+    }
+
     public void notify(GameMap map) {
         explode(map);
     }
@@ -43,18 +48,6 @@ public class Bomb extends Entity implements InventoryItem, OverlapBehaviour {
         return true;
     }
 
-    @Override
-    public void onOverlap(GameMap map, Entity entity) {
-        if (state != State.SPAWNED)
-            return;
-        if (entity instanceof Player) {
-            if (!((Player) entity).pickUp(this))
-                return;
-            subs.stream().forEach(s -> s.unsubscribe(this));
-            map.destroyEntity(this);
-        }
-        this.state = State.INVENTORY;
-    }
 
     public void onPutDown(GameMap map, Position p) {
         translate(Position.calculatePositionBetween(getPosition(), p));

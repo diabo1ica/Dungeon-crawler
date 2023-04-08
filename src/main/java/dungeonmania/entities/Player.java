@@ -94,6 +94,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
 
     public boolean pickUp(Entity item) {
         if (item instanceof Treasure) collectedTreasureCount++;
+        System.out.println("The picked up item is " + item.getClass());
         return inventory.add((InventoryItem) item);
     }
 
