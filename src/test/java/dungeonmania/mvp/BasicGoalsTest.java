@@ -1,6 +1,7 @@
 package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 public class BasicGoalsTest {
     @Test
@@ -120,5 +123,39 @@ public class BasicGoalsTest {
 
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
+    }
+
+    @Test
+    @Tag("13-4")
+    @DisplayName("Test enemy goal condition")
+    public void enemy() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_goalTest_enemies", "c_goalTest_enemies");
+        String spawnerId = TestUtils.getEntities(res, "zombie_toast_spawner").get(0).getId();
+        assertEquals(1, TestUtils.countType(res, "sword"));
+        
+        // move player to right
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.countType(res, "sword"));
+
+        // assert goal not met
+        assertTrue(TestUtils.getGoals(res).contains(":enemies"));
+        assertEquals(1, TestUtils.countType(res, "zombie_toast"));
+
+        // move player to right
+        res = dmc.tick(Direction.RIGHT);
+
+        // Zombie slain but assert goal not met yet
+        assertTrue(TestUtils.getGoals(res).contains(":enemies"));
+        assertEquals(1, TestUtils.countType(res, "player"));
+        assertEquals(0, TestUtils.countType(res, "zombie_toast"));
+
+        // Interact with spawner
+        res = assertDoesNotThrow(() -> dmc.interact(spawnerId));
+
+        // Zombie slain and spawner destroyed
+        assertEquals("", TestUtils.getGoals(res));
+        assertEquals(0, TestUtils.countType(res, "zombie_toast_spawner"));
     }
 }
