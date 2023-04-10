@@ -150,7 +150,7 @@ public class EntityFactory {
             return new Arrow(pos);
         case "bomb":
             int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
-            if (config.has("logic")) return new LogicalBomb(pos, bombRadius, config.getString("logic"));
+            //if (config.has("logic")) return new LogicalBomb(pos, bombRadius, config.getString("logic"));
             return new Bomb(pos, bombRadius);
         case "invisibility_potion":
             int invisibilityPotionDuration = config.optInt("invisibility_potion_duration",
