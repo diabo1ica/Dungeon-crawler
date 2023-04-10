@@ -14,7 +14,7 @@ import dungeonmania.entities.ExplosiveItem;
 
 public class Bomb extends ExplosiveItem implements InventoryItem {
     public static final int DEFAULT_RADIUS = 1;
-    
+
     public Bomb(Position position, int radius) {
         super(position, radius);
         setState(State.SPAWNED);

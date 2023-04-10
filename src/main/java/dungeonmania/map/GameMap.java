@@ -305,7 +305,7 @@ public class GameMap {
     public <T extends Entity, U> List<U> getEntities(Class<T> type, Class<U> type2) {
         return getEntities().stream().filter(type::isInstance).map(type2::cast).collect(Collectors.toList());
     }
-    
+
     public Player getPlayer() {
         return player;
     }

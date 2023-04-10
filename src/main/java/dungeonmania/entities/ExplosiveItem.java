@@ -54,7 +54,7 @@ public abstract class ExplosiveItem extends Entity implements Subscribable {
             }
         }
     }
-    
+
     public State getState() {
         return state;
     }
