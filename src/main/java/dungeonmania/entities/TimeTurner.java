@@ -18,7 +18,7 @@ public class TimeTurner extends Entity implements OverlapBehaviour, InventoryIte
 
     // constructor
     // it has 2 buttons
-    // button 1:  
+    // button 1:
     public TimeTurner(Position position) {
         super(position);
 
@@ -26,9 +26,9 @@ public class TimeTurner extends Entity implements OverlapBehaviour, InventoryIte
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
-        if (entity instanceof Player) {
-            //
-        }
+        // if (entity instanceof Player) {
+        //     //
+        // }
     }
 }
 

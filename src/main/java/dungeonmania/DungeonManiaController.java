@@ -73,6 +73,7 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));
+
     }
 
     /**
@@ -123,9 +124,9 @@ public class DungeonManiaController {
             throw new InsufficientTickCount("The argument ticks must not be larger than the current game tick counts!");
         }
 
-        for (int i = 0; i < ticks; i++) {
-            // DungeonResponse res = 
-        }
+        // for (int i = 0; i < ticks; i++) {
+        //     // DungeonResponse res =
+        // }
 
         // if the number of ticks so far < argument ticks, throw an error
         return null;

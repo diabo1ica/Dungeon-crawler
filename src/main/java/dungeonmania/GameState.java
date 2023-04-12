@@ -6,15 +6,15 @@ import java.util.Stack;
  * This class stores (at most) 30 tickss
  */
 public class GameState {
-    private Stack<Game> ListGameState = new Stack<>();
-    private Stack<Game> TemporaryGameState = new Stack<>();
+    private Stack<Game> listGameState = new Stack<>();
+    private Stack<Game> temporaryGameState = new Stack<>();
 
     public Stack<Game> getGameStateStack() {
-        return this.ListGameState;
+        return this.listGameState;
     }
 
     public Stack<Game> getTemporaryGameStateStack() {
-        return this.TemporaryGameState;
+        return this.temporaryGameState;
     }
 
     // pop the stack

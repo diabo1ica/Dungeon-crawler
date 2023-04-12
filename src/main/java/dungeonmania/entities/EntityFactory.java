@@ -4,7 +4,6 @@ import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
-import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.enemies.*;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
@@ -151,6 +150,9 @@ public class EntityFactory {
             return new Arrow(pos);
         case "bomb":
             int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
+            if (jsonEntity.has("logic")) {
+                return new LogicalBomb(pos, bombRadius, jsonEntity.getString("logic"));
+            }
             return new Bomb(pos, bombRadius);
         case "invisibility_potion":
             int invisibilityPotionDuration = config.optInt("invisibility_potion_duration",
@@ -172,6 +174,12 @@ public class EntityFactory {
             return new Door(pos, jsonEntity.getInt("key"));
         case "key":
             return new Key(pos, jsonEntity.getInt("key"));
+        case "light_bulb_off":
+            return new LightBulb(pos, jsonEntity.getString("logic"));
+        case "wire":
+            return new Wire(pos);
+        case "switch_door":
+            return new SwitchDoor(pos, jsonEntity.getString("logic"));
         default:
             return null;
         }
