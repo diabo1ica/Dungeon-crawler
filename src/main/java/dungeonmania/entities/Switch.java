@@ -1,16 +1,20 @@
 package dungeonmania.entities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.logic.LogicalActivator;
+import dungeonmania.entities.logic.LogicalOperator;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Switch extends Entity implements Subscribable, OverlapBehaviour, MovedAwayBehaviour {
+public class Switch extends Entity implements Subscribable, LogicalOperator,
+OverlapBehaviour, MovedAwayBehaviour, LogicalActivator {
     private boolean activated;
     private List<Subscribable> subs = new ArrayList<>();
+    private List<LogicalEntity> logicTargetList = new ArrayList<>();
 
     public Switch(Position position) {
         super(position.asLayer(Entity.ITEM_LAYER));
@@ -24,7 +28,8 @@ public class Switch extends Entity implements Subscribable, OverlapBehaviour, Mo
         return subs;
     }
 
-    public void subscribe(Bomb bomb, GameMap map) {
+    // Subscribe on put down bomb
+    public void subscribe(Subscribable bomb, GameMap map) {
         subs.add(bomb);
         if (activated) {
             getBombsFromSubs().forEach(b -> b.notify(map));
@@ -49,6 +54,7 @@ public class Switch extends Entity implements Subscribable, OverlapBehaviour, Mo
         if (entity instanceof Boulder) {
             activated = true;
             getBombsFromSubs().forEach(b -> b.notify(map));
+            this.activate(getPosition(), map, logicTargetList);
         }
     }
 
@@ -56,6 +62,7 @@ public class Switch extends Entity implements Subscribable, OverlapBehaviour, Mo
     public void onMovedAway(GameMap map, Entity entity) {
         if (entity instanceof Boulder) {
             activated = false;
+            this.deactivate(getPosition(), logicTargetList);
         }
     }
 
@@ -63,6 +70,29 @@ public class Switch extends Entity implements Subscribable, OverlapBehaviour, Mo
         return subs.stream().filter(ExplosiveItem.class::isInstance)
         .map(ExplosiveItem.class::cast)
         .collect(Collectors.toList());
+    }
+
+    private List<LogicalOperator> getLogicOperatorsFromSubs() {
+        return subs.stream().filter(LogicalOperator.class::isInstance)
+        .map(LogicalOperator.class::cast)
+        .collect(Collectors.toList());
+    }
+
+    public void activate(Position position, GameMap map, List<LogicalEntity> list) {
+        // Connect power to all connected logic operators
+        Iterator<LogicalOperator> it = getLogicOperatorsFromSubs().iterator();
+        while (it.hasNext()) {
+            it.next().activate(position, map, list);
+        }
+        // Activate connected logic entities
+        Iterator<LogicalEntity> it2 = logicTargetList.iterator();
+        while (it2.hasNext()) {
+            it2.next().updateActivationStatus(map);
+        }
+    }
+
+    public void deactivate(Position position, List<LogicalEntity> list) {
+        getLogicOperatorsFromSubs().forEach(e -> e.deactivate(position, list));
     }
 
     public boolean isActivated() {

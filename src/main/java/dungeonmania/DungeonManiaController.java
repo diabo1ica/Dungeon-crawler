@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import dungeonmania.exceptions.InsufficientTickCount;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
@@ -61,9 +62,10 @@ public class DungeonManiaController {
 
     /**
      * /game/dungeonResponseModel
+     * this gives the current state of the game model
      */
     public DungeonResponse getDungeonResponseModel() {
-        return null;
+        return ResponseBuilder.getDungeonResponse(game);
     }
 
     /**
@@ -71,6 +73,7 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));
+
     }
 
     /**
@@ -109,9 +112,23 @@ public class DungeonManiaController {
 
     /**
      * /game/rewind
+     * go back n ticks
+     * only used for the time turners (not the time travelling portals)
      */
-    public DungeonResponse rewind(int ticks) throws IllegalArgumentException {
+    public DungeonResponse rewind(int ticks) throws IllegalArgumentException, InsufficientTickCount {
+        if (ticks <= 0) {
+            throw new IllegalArgumentException("The number of ticks must be a positive integer!");
+        }
+
+        if (game.getTick() < ticks) {
+            throw new InsufficientTickCount("The argument ticks must not be larger than the current game tick counts!");
+        }
+
+        // for (int i = 0; i < ticks; i++) {
+        //     // DungeonResponse res =
+        // }
+
+        // if the number of ticks so far < argument ticks, throw an error
         return null;
     }
-
 }
