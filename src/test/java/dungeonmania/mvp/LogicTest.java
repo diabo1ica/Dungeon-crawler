@@ -312,4 +312,29 @@ public class LogicTest {
         assertEquals(0, TestUtils.getEntities(res, "light_bulb_off").size());
         assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
     }
+
+    @Test
+    @DisplayName("Test logical entity does not activate wires")
+    public void lightDoesNotActivateWire() {
+        // W   W   W   W   W   W
+        // W   P               W
+        // W   B               W
+        // W   S   L   -   L   W
+        // W   W   W   W   W   W
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_logic_entity_light_test2",
+                "c_logic_entity_test");
+
+        assertEquals(2, TestUtils.getEntities(res, "light_bulb_off").size());
+        assertEquals(0, TestUtils.getEntities(res, "light_bulb_on").size());
+
+        // Move boulder to switch
+        res = dmc.tick(Direction.DOWN);
+
+        // Assert only 1 light bulb is on
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_off").size());
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
+    }
+
 }

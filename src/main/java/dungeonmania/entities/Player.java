@@ -15,7 +15,7 @@ import dungeonmania.entities.enemies.Mercenary;
 import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.playerState.BaseState;
-import dungeonmania.entities.playerState.PlayerState;
+import dungeonmania.entities.playerState.PotionState;
 import dungeonmania.entities.playerState.PotionStateChanger;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
@@ -33,7 +33,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     private int collectedTreasureCount = 0;
     private int collectedSunStoneCount = 0;
 
-    private PlayerState state;
+    private PotionState state;
     private int killCount = 0;
 
     public Player(Position position, double health, double attack) {
@@ -62,6 +62,10 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
 
     public BattleItem getWeapon() {
         return inventory.getWeapon();
+    }
+
+    public List<BattleItem> getBattleItems() {
+        return inventory.getEntities(BattleItem.class);
     }
 
     public List<String> getBuildables() {
@@ -160,6 +164,14 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     @Override
     public BattleStatistics getBattleStatistics() {
         return battleStatistics;
+    }
+
+    public double getHealth() {
+        return battleStatistics.getHealth();
+    }
+
+    public void setHealth(double health) {
+        battleStatistics.setHealth(health);
     }
 
     public <T extends InventoryItem> int countEntityOfType(Class<T> itemType) {

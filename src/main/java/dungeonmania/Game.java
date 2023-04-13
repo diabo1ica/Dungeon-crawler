@@ -219,4 +219,8 @@ public class Game implements Serializable {
         return map.getSpawnerCount();
     }
 
+    public <T extends Entity> List<T> getEntities(Class<T> type) {
+        return map.getEntities(type);
+    }
+
 }

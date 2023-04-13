@@ -3,7 +3,7 @@ package dungeonmania.entities.playerState;
 import dungeonmania.entities.collectables.potions.*;
 
 public class PotionStateChanger {
-    public static PlayerState transition(Potion inEffective) {
+    public static PotionState transition(Potion inEffective) {
         if (inEffective == null) {
             return new BaseState();
         } else if (inEffective instanceof InvisibilityPotion) {

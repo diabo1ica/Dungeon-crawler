@@ -2,7 +2,7 @@ package dungeonmania.entities.playerState;
 
 import dungeonmania.battles.BattleStatistics;
 
-public class InvincibleState implements PlayerState {
+public class InvincibleState implements PotionState {
     public BattleStatistics applyState(BattleStatistics origin) {
         return BattleStatistics.applyBuff(origin, new BattleStatistics(
             0,

@@ -2,6 +2,6 @@ package dungeonmania.entities.playerState;
 
 import dungeonmania.battles.BattleStatistics;
 
-public interface PlayerState {
+public interface PotionState {
     public BattleStatistics applyState(BattleStatistics origin);
 }
