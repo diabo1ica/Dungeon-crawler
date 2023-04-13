@@ -1,10 +1,5 @@
 package dungeonmania.entities;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import dungeonmania.entities.enemies.Mercenary;
-import dungeonmania.entities.enemies.ZombieToast;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
@@ -18,10 +13,11 @@ public class TimeTravellingPortal extends Entity implements OverlapBehaviour {
     @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Player) {
-            // player's position remain the same
-            // the dungeon state rewind(30)
+            // call game state
+            //Game PastGameState = gameState.getPointedGameState(ticks);
         }
     }
+
 }
 
 // question:

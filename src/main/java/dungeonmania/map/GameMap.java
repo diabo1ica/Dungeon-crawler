@@ -1,5 +1,6 @@
 package dungeonmania.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,15 +21,22 @@ import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.entities.ExplosiveItem;
 
 
-public class GameMap {
+public class GameMap implements Serializable {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
     private Player player;
+
+    public Map<Position, GraphNode> getGraphNode() {
+        return this.nodes;
+    }
+
+    public void setMapNode(Map<Position, GraphNode> mapNode) {
+        this.nodes = mapNode;
+    }
 
     /**
      * Initialise the game map

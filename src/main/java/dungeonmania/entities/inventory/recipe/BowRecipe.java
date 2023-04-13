@@ -12,7 +12,7 @@ public class BowRecipe implements Recipe {
 
     public boolean checkIngredients(List<InventoryItem> items) {
         if (getItemsInInventory(Wood.class, items).size() >= WOOD
-        && getItemsInInventory(Arrow.class, items).size() >= ARROWS) {
+                && getItemsInInventory(Arrow.class, items).size() >= ARROWS) {
             return true;
         }
         return false;

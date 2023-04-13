@@ -1,9 +1,11 @@
 package dungeonmania.goals;
 
+import java.io.Serializable;
+
 import dungeonmania.Game;
 import dungeonmania.goals.GoalTypes.*;
 
-public class Goal {
+public class Goal implements Serializable {
     private GoalType gType;
     private int target;
     private Goal goal1;

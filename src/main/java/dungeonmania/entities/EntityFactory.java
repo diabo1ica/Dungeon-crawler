@@ -11,6 +11,7 @@ import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.util.Position;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
-public class EntityFactory {
+public class EntityFactory implements Serializable {
     private JSONObject config;
     private Random ranGen = new Random();
 
@@ -128,6 +129,10 @@ public class EntityFactory {
         switch (jsonEntity.getString("type")) {
         case "player":
             return buildPlayer(pos);
+        case "time_turner":
+            return new TimeTurner(pos);
+        case "sun_stone":
+            return new SunStone(pos);
         case "zombie_toast":
             return buildZombieToast(pos);
         case "zombie_toast_spawner":

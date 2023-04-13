@@ -4,9 +4,10 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable {
     public static final int FLOOR_LAYER = 0;
     public static final int ITEM_LAYER = 1;
     public static final int DOOR_LAYER = 2;

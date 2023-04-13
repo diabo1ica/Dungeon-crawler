@@ -17,7 +17,9 @@ import dungeonmania.goals.Goal;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 
-public class Game {
+import java.io.*;
+
+public class Game implements Serializable {
     private String id;
     private String name;
     private Goal goals;
@@ -153,6 +155,7 @@ public class Game {
         addingSub = new PriorityQueue<>();
         sub = nextTickSub;
         tickCount++;
+
         return tickCount;
     }
 
@@ -196,11 +199,37 @@ public class Game {
         return player.getCollectedTreasureCount();
     }
 
+    public int getCollectedSunStoneCount() {
+        return player.getCollectedSunStoneCount();
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     public BattleFacade getBattleFacade() {
         return battleFacade;
+    }
+
+    public Game deepCopy() {
+        Game copiedGame = null;
+        try {
+            System.out.println("hello there");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(bis);
+            copiedGame = (Game) in.readObject();
+            in.close();
+            System.out.println("this is the " + copiedGame);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error during deep copy: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return copiedGame;
     }
 }

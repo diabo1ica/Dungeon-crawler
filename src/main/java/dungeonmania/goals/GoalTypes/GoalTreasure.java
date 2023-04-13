@@ -5,7 +5,7 @@ import dungeonmania.goals.Goal;
 
 public class GoalTreasure implements GoalType {
     public boolean typeAchieved(Game game, Goal goal) {
-        return game.getCollectedTreasureCount() >= goal.getTarget();
+        return (game.getCollectedTreasureCount() + game.getCollectedSunStoneCount()) >= goal.getTarget();
     }
 
     @Override

@@ -9,7 +9,7 @@ import dungeonmania.util.Position;
 public class Arrow extends Entity implements InventoryItem {
     public Arrow(Position position) {
         super(position);
-    } // hehes
+    }
 
     @Override
     public boolean canMoveOnto(GameMap map, Entity entity) {

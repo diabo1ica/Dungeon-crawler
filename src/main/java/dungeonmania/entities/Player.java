@@ -8,6 +8,7 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
 import dungeonmania.entities.enemies.Mercenary;
@@ -30,6 +31,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     private int nextTrigger = 0;
 
     private int collectedTreasureCount = 0;
+    private int collectedSunStoneCount = 0;
 
     private PlayerState state;
 
@@ -47,6 +49,10 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
 
     public int getCollectedTreasureCount() {
         return collectedTreasureCount;
+    }
+
+    public int getCollectedSunStoneCount() {
+        return collectedSunStoneCount;
     }
 
     public boolean hasWeapon() {
@@ -92,7 +98,10 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     }
 
     public boolean pickUp(Entity item) {
-        if (item instanceof Treasure) collectedTreasureCount++;
+        if (item instanceof Treasure)
+            collectedTreasureCount++;
+        if (item instanceof SunStone)
+            collectedSunStoneCount++;
         System.out.println("The picked up item is " + item.getClass());
         return inventory.add((InventoryItem) item);
     }
