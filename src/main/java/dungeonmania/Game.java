@@ -212,4 +212,8 @@ public class Game {
         return map.getSpawnerCount();
     }
 
+    public <T extends Entity> List<T> getEntities(Class<T> type) {
+        return map.getEntities(type);
+    }
+
 }

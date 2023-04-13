@@ -2,7 +2,7 @@ package dungeonmania.entities.playerState;
 
 import dungeonmania.battles.BattleStatistics;
 
-public class InvisibleState implements PlayerState {
+public class InvisibleState implements PotionState {
     public BattleStatistics applyState(BattleStatistics origin) {
         return BattleStatistics.applyBuff(origin, new BattleStatistics(
             0,
