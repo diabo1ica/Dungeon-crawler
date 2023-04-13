@@ -15,7 +15,6 @@ import dungeonmania.util.FileLoader;
  * */
 public class DungeonManiaController {
     private Game game = null;
-    private GameState gs = new GameState();
 
     public String getSkin() {
         return "default";
@@ -79,21 +78,8 @@ public class DungeonManiaController {
     3. This means currentStatePointer is still in the past state (as a result of time travel)
     */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        // Game newState = game.tick(itemUsedId);
-        // gs.addGameState(newState);
-        // return ResponseBuilder.getDungeonResponse(newState);
-        Game currentGame = game.tick(itemUsedId);
+        return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));
 
-        // if already in the present
-        if (gs.currentStatePointer == (gs.getListGameStateSize() - 1)) {
-            gs.addGameState(currentGame);
-            gs.addCurrentStatePointer();
-            // if still in the past
-        } else {
-            currentGame = gs.getCurrentState();
-            gs.addCurrentStatePointer();
-        }
-        return ResponseBuilder.getDungeonResponse(currentGame);
     }
 
     /**
@@ -101,15 +87,6 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(Direction movementDirection) {
         Game currentGame = game.tick(movementDirection);
-        // if already in the present
-        if (gs.currentStatePointer == (gs.getListGameStateSize() - 1)) {
-            gs.addGameState(currentGame);
-            gs.addCurrentStatePointer();
-            // if still in the past
-        } else {
-            currentGame = gs.getCurrentState();
-            gs.addCurrentStatePointer();
-        }
         return ResponseBuilder.getDungeonResponse(currentGame);
     }
 
@@ -121,10 +98,7 @@ public class DungeonManiaController {
         if (!validBuildables.contains(buildable)) {
             throw new IllegalArgumentException("Only bow, shield, midnight_armour and sceptre can be built");
         }
-
         Game newState = game.build(buildable);
-        gs.addGameState(newState);
-
         return ResponseBuilder.getDungeonResponse(newState);
     }
 
@@ -133,7 +107,6 @@ public class DungeonManiaController {
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         Game newState = game.interact(entityId);
-        gs.addGameState(newState);
         return ResponseBuilder.getDungeonResponse(newState);
     }
 
@@ -157,14 +130,9 @@ public class DungeonManiaController {
             throw new IllegalArgumentException("The number of ticks must be a positive integer!");
         }
 
-        if (gs.getCurrentStatePointer() < (ticks - 1)) {
+        if (game.getTick() < (ticks - 1)) {
             throw new InsufficientTickCount("The argument ticks must not be larger than the current game tick counts!");
         }
-        System.out.println("before rewind currentPointer: " + gs.currentStatePointer);
-        // create GameState object
-        Game currentGame = gs.timeTravelBoom(ticks);
-        System.out.println("after rewind currentPointer: " + gs.currentStatePointer);
-
-        return ResponseBuilder.getDungeonResponse(currentGame);
+        return null;
     }
 }

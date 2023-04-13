@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import dungeonmania.entities.Door;
 import dungeonmania.entities.Entity;
+import dungeonmania.entities.collectables.LogicalBomb;
+import dungeonmania.entities.LightBulb;
 import dungeonmania.entities.Portal;
 
 public class NameConverter {
@@ -17,6 +19,13 @@ public class NameConverter {
         if (entity instanceof Door) {
             String open = ((Door) entity).isOpen() ? "_open" : "";
             return nameBasic + open;
+        }
+        if (entity instanceof LightBulb) {
+            String on = ((LightBulb) entity).getActivationStatus() ? "_on" : "_off";
+            return nameBasic + on;
+        }
+        if (entity instanceof LogicalBomb) {
+            return "bomb";
         }
         return nameBasic;
     }

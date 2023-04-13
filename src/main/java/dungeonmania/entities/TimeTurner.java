@@ -12,13 +12,21 @@ import dungeonmania.map.GameMap;
 
 import dungeonmania.entities.inventory.InventoryItem;
 
-public class TimeTurner extends Entity implements InventoryItem {
+public class TimeTurner extends Entity implements OverlapBehaviour, InventoryItem {
+
+    // new attributes
+
+    // constructor
+    // it has 2 buttons
+    // button 1:
     public TimeTurner(Position position) {
         super(position);
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
+    public void onOverlap(GameMap map, Entity entity) {
+        // if (entity instanceof Player) {
+        //     //
+        // }
     }
 }

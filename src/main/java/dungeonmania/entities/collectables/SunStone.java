@@ -18,24 +18,13 @@ public class SunStone extends Entity implements InventoryItem {
 
 }
 
-// special form of treasure
-
-// can be picked up by player
-
-// can be used to open doors
-
-// can be used interchangeably with treasure or keys when building entities
-
-// cannot bribe Assassin / Mercenary
-
-// counts towards TReasure Goals
-
 // Galaxy Buddha Mode:
 
 /*abstract
 1. Empty interafce CanOpenDoor, CanBribe
 2. Door.java --> onOverlap --> if hasKey || if hasSunStone
 3. Door.java --> hasSunStone(Player player)
+also changed in Door.java --> canMoveOnto if has SunStone or Key
 4. ShieldRecipe.java --> can be used interchangly with trasure or keys when building entities
 5. Player.java --> new attribute and method getSunStoneCount
 6. Game.java --> new method getSunStoneCount
@@ -43,4 +32,5 @@ public class SunStone extends Entity implements InventoryItem {
 8. GoalTreasure.java --> typeAchieved, sunstone now constributes to the calculation of treasure counts
 9. Also in ShieldRecipe.java --> Sunstone can replace key, it is used, but the item is never used up
 10. Door.java --> if sunstone is used to open door, sunstone is not being used
+11. GameMap.java --> triggerOverlapEvent
 */

@@ -4,7 +4,6 @@ import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
-import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.enemies.*;
 import dungeonmania.map.GameMap;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
@@ -69,7 +68,8 @@ public class EntityFactory implements Serializable {
         if (spawnInterval == 0 || (tick + 1) % spawnInterval != 0)
             return;
         List<Position> pos = spawner.getPosition().getCardinallyAdjacentPositions();
-        pos = pos.stream().filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall)))
+        pos = pos.stream().filter(p -> !map.getEntities(p).stream().anyMatch(e -> (e instanceof Wall
+        || e instanceof Player)))
                 .collect(Collectors.toList());
         if (pos.size() == 0)
             return;
@@ -123,6 +123,11 @@ public class EntityFactory implements Serializable {
         return new Shield(shieldDurability, shieldDefence);
     }
 
+    // public Sceptre buildSceptre() {
+    //     // int bowDurability = config.optInt("bow_durability");
+    //     return new Bow(bowDurability);
+    // }
+
     private Entity constructEntity(JSONObject jsonEntity, JSONObject config) {
         Position pos = new Position(jsonEntity.getInt("x"), jsonEntity.getInt("y"));
 
@@ -155,6 +160,9 @@ public class EntityFactory implements Serializable {
             return new Arrow(pos);
         case "bomb":
             int bombRadius = config.optInt("bomb_radius", Bomb.DEFAULT_RADIUS);
+            if (jsonEntity.has("logic")) {
+                return new LogicalBomb(pos, bombRadius, jsonEntity.getString("logic"));
+            }
             return new Bomb(pos, bombRadius);
         case "invisibility_potion":
             int invisibilityPotionDuration = config.optInt("invisibility_potion_duration",
@@ -176,6 +184,12 @@ public class EntityFactory implements Serializable {
             return new Door(pos, jsonEntity.getInt("key"));
         case "key":
             return new Key(pos, jsonEntity.getInt("key"));
+        case "light_bulb_off":
+            return new LightBulb(pos, jsonEntity.getString("logic"));
+        case "wire":
+            return new Wire(pos);
+        case "switch_door":
+            return new SwitchDoor(pos, jsonEntity.getString("logic"));
         default:
             return null;
         }

@@ -160,7 +160,7 @@ public class Game implements Serializable {
     }
 
     public int getTick() {
-        return this.tickCount;
+        return tickCount;
     }
 
     public String getId() {
@@ -211,25 +211,12 @@ public class Game implements Serializable {
         return battleFacade;
     }
 
-    public Game deepCopy() {
-        Game copiedGame = null;
-        try {
-            System.out.println("hello there");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.writeObject(this);
-            out.flush();
-            out.close();
-
-            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-            ObjectInputStream in = new ObjectInputStream(bis);
-            copiedGame = (Game) in.readObject();
-            in.close();
-            System.out.println("this is the " + copiedGame);
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error during deep copy: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return copiedGame;
+    public int getPlayersKillCount() {
+        return player.getKillCount();
     }
+
+    public int getSpawnerCount() {
+        return map.getSpawnerCount();
+    }
+
 }

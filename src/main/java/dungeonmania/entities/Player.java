@@ -34,6 +34,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     private int collectedSunStoneCount = 0;
 
     private PlayerState state;
+    private int killCount = 0;
 
     public Player(Position position, double health, double attack) {
         super(position);
@@ -98,10 +99,12 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     }
 
     public boolean pickUp(Entity item) {
-        if (item instanceof Treasure)
+        if (item instanceof Treasure) {
             collectedTreasureCount++;
-        if (item instanceof SunStone)
+        }
+        if (item instanceof SunStone) {
             collectedSunStoneCount++;
+        }
         System.out.println("The picked up item is " + item.getClass());
         return inventory.add((InventoryItem) item);
     }
@@ -166,5 +169,13 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     // Apply potion state as buff
     public BattleStatistics applyBuff(BattleStatistics origin) {
         return state.applyState(origin);
+    }
+
+    public void killCountIncrease() {
+        killCount++;
+    }
+
+    public int getKillCount() {
+        return killCount;
     }
 }

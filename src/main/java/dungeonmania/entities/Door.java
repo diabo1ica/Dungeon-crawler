@@ -22,18 +22,20 @@ public class Door extends Entity implements OverlapBehaviour {
         if (open || entity instanceof Spider) {
             return true;
         }
-        return (entity instanceof Player && hasKey((Player) entity));
+        return (entity instanceof Player && (hasKey((Player) entity) || hasSunStone((Player) entity)));
     }
 
     @Override
     public void onOverlap(GameMap map, Entity entity) {
+
         if (!(entity instanceof Player))
             return;
+        System.out.println("lai lai open");
 
         Player player = (Player) entity;
         Inventory inventory = player.getInventory();
         Key key = inventory.getFirst(Key.class);
-
+        System.out.println("if player has key");
         if (hasSunStone(player)) {
             open();
         } else if (hasKey(player)) {
@@ -43,6 +45,7 @@ public class Door extends Entity implements OverlapBehaviour {
     }
 
     private boolean hasKey(Player player) {
+        System.out.println("does the player has key");
         Inventory inventory = player.getInventory();
         Key key = inventory.getFirst(Key.class);
 
@@ -50,6 +53,7 @@ public class Door extends Entity implements OverlapBehaviour {
     }
 
     private boolean hasSunStone(Player player) {
+        System.out.println("does the player has sunstone");
         Inventory inventory = player.getInventory();
         SunStone sun_stone = inventory.getFirst(SunStone.class);
 
