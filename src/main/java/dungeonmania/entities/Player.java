@@ -150,6 +150,10 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
         return battleStatistics;
     }
 
+    public double getHealth() {
+        return battleStatistics.getHealth();
+    }
+
     public <T extends InventoryItem> int countEntityOfType(Class<T> itemType) {
         return inventory.count(itemType);
     }

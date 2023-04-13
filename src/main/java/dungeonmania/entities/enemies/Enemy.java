@@ -29,6 +29,10 @@ public abstract class Enemy extends Entity implements Battleable, OverlapBehavio
         return battleStatistics;
     }
 
+    public double getHealth() {
+        return battleStatistics.getHealth();
+    }
+
     @Override
     public void onOverlap(GameMap map, Entity entity) {
         if (entity instanceof Player) {
