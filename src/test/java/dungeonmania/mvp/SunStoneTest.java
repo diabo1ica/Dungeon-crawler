@@ -1,6 +1,7 @@
 package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 // import dungeonmania.response.models.BattleResponse;
 // import dungeonmania.response.models.RoundResponse;
@@ -275,9 +276,32 @@ public class SunStoneTest {
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
         res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+        assertEquals(1, TestUtils.getInventory(res, "midnight_armour").size());
 
         res = dmc.tick(Direction.RIGHT);
         assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
+    }
+
+    @Test
+    @DisplayName("Test cannot build Midnight armor when there is a zombie toast")
+    public void midnightZombie() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        String config = "c_sunStoneTest_midnight_buff";
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_no_zombie", config);
+        // picks up sword
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sword").size());
+
+        // picks up sun_stone
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // cannot build midnight_armour when there is a zombie
+        assertEquals(0, TestUtils.getEntities(res, "midnight_armour").size());
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+        assertEquals(1, TestUtils.getInventory(res, "midnight_armour").size());
+
     }
 
 }
