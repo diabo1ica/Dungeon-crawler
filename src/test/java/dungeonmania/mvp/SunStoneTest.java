@@ -2,6 +2,8 @@ package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
+// import dungeonmania.response.models.BattleResponse;
+// import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -226,8 +228,8 @@ public class SunStoneTest {
     }
 
     @Test
-    @DisplayName("Test building Mind control duration")
-    public void buildMidnightArmor() {
+    @DisplayName("Test Mind control duration")
+    public void mindControl() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_sunStoneTest_use_scepter",
@@ -254,5 +256,31 @@ public class SunStoneTest {
         res = dmc.tick(Direction.LEFT);
         assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
     }
+
+    // @Test
+    // @DisplayName("Test Midnight armor buff")
+    // public void midnightBuff() {
+    //     DungeonManiaController dmc;
+    //     // This config sets the player at health 1 and attack 1
+    //     // Midnight armor provides atk and defense buff 999
+    //     // Battle without armor = player loss
+    //     dmc = new DungeonManiaController();
+    //     String config = "c_sunStoneTest_midnight_buff";
+    //     DungeonResponse res = dmc.newGame("d_sunStoneTest_midnight_no_buff",
+    //     config);
+    //     res = dmc.tick(Direction.RIGHT);
+    //     res = dmc.tick(Direction.RIGHT);
+    //     res = dmc.tick(Direction.RIGHT);
+    //     assertEquals(0, TestUtils.getEntities(res, "player").size());
+
+    //     // Create new game this time battle with armor assert player win
+    //     res = dmc.newGame("d_sunStoneTest_midnight_buff", config);
+    //     res = dmc.tick(Direction.RIGHT);
+    //     res = dmc.tick(Direction.RIGHT);
+    //     res = assertDoesNotThrow(() -> dmc.build("midnight_armor"));
+
+    //     res = dmc.tick(Direction.RIGHT);
+    //     assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
+    // }
 
 }
