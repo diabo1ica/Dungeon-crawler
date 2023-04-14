@@ -9,7 +9,6 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.buildables.Bow;
-import dungeonmania.entities.buildables.MidnightArmour;
 import dungeonmania.entities.collectables.Sword;
 
 import dungeonmania.entities.enemies.ZombieToast;

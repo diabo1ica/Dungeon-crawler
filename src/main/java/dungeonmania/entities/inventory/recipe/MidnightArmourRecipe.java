@@ -18,9 +18,9 @@ public class MidnightArmourRecipe implements Recipe {
 
     public List<InventoryItem> removeIngredients(List<InventoryItem> items) {
         List<Sword> sword = getItemsInInventory(Sword.class, items);
-        List<SunStone> sun_stone = getItemsInInventory(SunStone.class, items);
+        List<SunStone> sunStone = getItemsInInventory(SunStone.class, items);
         items.remove(sword.get(0));
-        items.remove(sun_stone.get(0));
+        items.remove(sunStone.get(0));
         return items;
     }
 
