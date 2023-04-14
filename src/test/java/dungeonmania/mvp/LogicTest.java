@@ -17,7 +17,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P               W
         // W   B               W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -44,7 +44,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P   B   S   -   W
         // W   B           -   W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -75,7 +75,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P               W
         // W   B       -   -   W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -92,7 +92,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P               W
         // W   B           -   W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         res = dmc.newGame("d_logic_entity_bomb_XOR2",
                 "c_logic_entity_test");
@@ -111,7 +111,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P   B   S   -   W
         // W   B           -   W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
@@ -136,7 +136,7 @@ public class LogicTest {
         // W   W   W   W   W   W
         // W   P               W
         // W   B       -   -   W
-        // W   S   -   -   B   W
+        // W   S   -   -   0   W
         // W   W   W   W   W   W
         res = dmc.newGame("d_logic_entity_bomb_COAND2",
                 "c_logic_entity_test");
@@ -335,6 +335,30 @@ public class LogicTest {
         // Assert only 1 light bulb is on
         assertEquals(1, TestUtils.getEntities(res, "light_bulb_off").size());
         assertEquals(1, TestUtils.getEntities(res, "light_bulb_on").size());
+    }
+
+    @Test
+    @DisplayName("Test switch does not activate switch")
+    public void switchDoesNotActivateWire() {
+        // W   W   W   W   W   W
+        // W   P               W
+        // W   B               W
+        // W   S   S   -   L   W
+        // W   W   W   W   W   W
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_logic_entity_switch_test",
+                "c_logic_entity_test");
+
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_off").size());
+        assertEquals(0, TestUtils.getEntities(res, "light_bulb_on").size());
+
+        // Move boulder to switch
+        res = dmc.tick(Direction.DOWN);
+
+        // Assert light bulb is off
+        assertEquals(1, TestUtils.getEntities(res, "light_bulb_off").size());
+        assertEquals(0, TestUtils.getEntities(res, "light_bulb_on").size());
     }
 
 }

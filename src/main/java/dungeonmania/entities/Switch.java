@@ -79,6 +79,7 @@ OverlapBehaviour, MovedAwayBehaviour, LogicalActivator {
     }
 
     public void activate(Position position, GameMap map, List<LogicalEntity> list) {
+        if (!activated) return;
         // Connect power to all connected logic operators
         Iterator<LogicalOperator> it = getLogicOperatorsFromSubs().iterator();
         while (it.hasNext()) {

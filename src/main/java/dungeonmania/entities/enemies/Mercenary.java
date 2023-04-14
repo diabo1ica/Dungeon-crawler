@@ -23,7 +23,7 @@ public class Mercenary extends Enemy implements Interactable {
     private int bribeAmount = Mercenary.DEFAULT_BRIBE_AMOUNT;
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
 
-    private int mind_being_controlled_duration = 0;
+    private int mindBeingControlledDuration = 0;
 
     private double allyAttack;
     private double allyDefence;
@@ -86,7 +86,7 @@ public class Mercenary extends Enemy implements Interactable {
     public void interact(Player player, Game game) {
         if (canBeMindControlled(player)) {
             allied = true;
-            mind_being_controlled_duration = 2;
+            mindBeingControlledDuration = 2;
         } else {
             allied = true;
             bribe(player);
@@ -100,8 +100,9 @@ public class Mercenary extends Enemy implements Interactable {
     public void move(Game game) {
         movement.move(game.getMap(), this);
         // every time the mercenary moves (meanign 1 tick is consumed)
-        if (mind_being_controlled_duration > 0) {
-            mind_being_controlled_duration--;
+        if (mindBeingControlledDuration > 0) {
+            mindBeingControlledDuration--;
+            if (mindBeingControlledDuration == 0) allied = false;
         }
     }
     // change is interactab
