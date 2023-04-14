@@ -42,7 +42,6 @@ public class Inventory {
             if (result.contains("midnight_armour"))
                 result.remove("midnight_armour");
         }
-
         return result;
     }
 
