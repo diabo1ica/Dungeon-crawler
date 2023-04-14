@@ -6,18 +6,20 @@ import java.util.List;
 import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.inventory.recipe.*;;
 
-// nehimomo
 public class Craft {
     private Recipe recipe;
-    private List<String> recipeList = Arrays.asList("bow", "shield");
+    private List<String> recipeList = Arrays.asList("bow", "shield", "sceptre");
 
     public boolean validInventory(List<InventoryItem> items, String item) {
         switch (item) {
-            case ("bow"):
-                recipe = new BowRecipe();
-                break;
-            default:
-                recipe = new ShieldRecipe();
+        case "bow":
+            recipe = new BowRecipe();
+            break;
+        case "sceptre":
+            recipe = new SceptreRecipe();
+            break;
+        default:
+            recipe = new ShieldRecipe();
         }
         return recipe.checkIngredients(items);
     }

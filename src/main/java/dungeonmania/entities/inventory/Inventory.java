@@ -35,6 +35,7 @@ public class Inventory {
     }
 
     public InventoryItem checkBuildCriteria(Player p, String item, EntityFactory factory) {
+        System.out.println(crafter.validInventory(items, item));
         if (crafter.validInventory(items, item)) {
             items = crafter.removeIngredients(items);
             return crafter.craftItem(factory);

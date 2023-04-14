@@ -10,7 +10,6 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ResponseBuilder;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
-
 /**
  * DO NOT CHANGE METHOD SIGNITURES OF THIS FILE
  * */
@@ -71,6 +70,13 @@ public class DungeonManiaController {
     /**
      * /game/tick/item
      */
+
+    /*
+    UPDATES:
+    1. The every tiem the game ticks, we get the state of the new game
+    2. If the currentStatePointer (int) of gs is lower than the size
+    3. This means currentStatePointer is still in the past state (as a result of time travel)
+    */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));
 
@@ -80,7 +86,8 @@ public class DungeonManiaController {
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        return ResponseBuilder.getDungeonResponse(game.tick(movementDirection));
+        Game currentGame = game.tick(movementDirection);
+        return ResponseBuilder.getDungeonResponse(currentGame);
     }
 
     /**
@@ -91,15 +98,16 @@ public class DungeonManiaController {
         if (!validBuildables.contains(buildable)) {
             throw new IllegalArgumentException("Only bow, shield, midnight_armour and sceptre can be built");
         }
-
-        return ResponseBuilder.getDungeonResponse(game.build(buildable));
+        Game newState = game.build(buildable);
+        return ResponseBuilder.getDungeonResponse(newState);
     }
 
     /**
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return ResponseBuilder.getDungeonResponse(game.interact(entityId));
+        Game newState = game.interact(entityId);
+        return ResponseBuilder.getDungeonResponse(newState);
     }
 
     /**
@@ -114,21 +122,17 @@ public class DungeonManiaController {
      * /game/rewind
      * go back n ticks
      * only used for the time turners (not the time travelling portals)
+     * because the button will show up
      */
     public DungeonResponse rewind(int ticks) throws IllegalArgumentException, InsufficientTickCount {
+
         if (ticks <= 0) {
             throw new IllegalArgumentException("The number of ticks must be a positive integer!");
         }
 
-        if (game.getTick() < ticks) {
+        if (game.getTick() < (ticks - 1)) {
             throw new InsufficientTickCount("The argument ticks must not be larger than the current game tick counts!");
         }
-
-        // for (int i = 0; i < ticks; i++) {
-        //     // DungeonResponse res =
-        // }
-
-        // if the number of ticks so far < argument ticks, throw an error
         return null;
     }
 }

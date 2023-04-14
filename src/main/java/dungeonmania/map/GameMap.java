@@ -1,5 +1,6 @@
 package dungeonmania.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +30,18 @@ import dungeonmania.entities.ExplosiveItem;
 import dungeonmania.entities.LightBulb;
 
 
-public class GameMap {
+public class GameMap implements Serializable {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
     private Player player;
+
+    public Map<Position, GraphNode> getGraphNode() {
+        return this.nodes;
+    }
+
+    public void setMapNode(Map<Position, GraphNode> mapNode) {
+        this.nodes = mapNode;
+    }
 
     /**
      * Initialise the game map
@@ -152,6 +161,8 @@ public class GameMap {
     private void triggerOverlapEvent(Entity entity) {
         List<Runnable> overlapCallbacks = new ArrayList<>();
         getEntities(entity.getPosition()).forEach(e -> {
+            System.out.println("woi");
+
             if (e != entity) {
                 // only Player can collect collectables
                 if (entity instanceof Player) {
@@ -159,6 +170,7 @@ public class GameMap {
                 }
                 // Player, Zombie, etc can interact with non-collectables
                 if (e instanceof OverlapBehaviour) {
+                    System.out.println("this of type " + e.getClass());
                     OverlapBehaviour ent = (OverlapBehaviour) e;
                     overlapCallbacks.add(() -> ent.onOverlap(this, entity));
                 }

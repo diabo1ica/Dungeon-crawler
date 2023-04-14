@@ -2,6 +2,7 @@ package dungeonmania.entities;
 
 import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
@@ -122,12 +123,23 @@ public class EntityFactory {
         return new Shield(shieldDurability, shieldDefence);
     }
 
+    public Sceptre buildSceptre() {
+        // int bowDurability = config.optInt("bow_durability");
+        int mindControlDuration = config.optInt("mind_control_duration");
+        System.out.println("spectre is being build");
+        return new Sceptre(mindControlDuration);
+    }
+
     private Entity constructEntity(JSONObject jsonEntity, JSONObject config) {
         Position pos = new Position(jsonEntity.getInt("x"), jsonEntity.getInt("y"));
 
         switch (jsonEntity.getString("type")) {
         case "player":
             return buildPlayer(pos);
+        case "time_turner":
+            return new TimeTurner(pos);
+        case "sun_stone":
+            return new SunStone(pos);
         case "zombie_toast":
             return buildZombieToast(pos);
         case "zombie_toast_spawner":

@@ -17,7 +17,9 @@ import dungeonmania.goals.Goal;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 
-public class Game {
+import java.io.*;
+
+public class Game implements Serializable {
     private String id;
     private String name;
     private Goal goals;
@@ -86,10 +88,14 @@ public class Game {
     }
 
     public Game build(String buildable) throws InvalidActionException {
+        System.out.println(buildable);
         List<String> buildables = player.getBuildables();
+        System.out.println(buildables); //
+        System.out.println(buildables.contains(buildable));
         if (!buildables.contains(buildable)) {
             throw new InvalidActionException(String.format("%s cannot be built", buildable));
         }
+
         registerOnce(() -> player.build(buildable, entityFactory), PLAYER_MOVEMENT, "playerBuildsItem");
         tick();
         return this;
@@ -153,11 +159,12 @@ public class Game {
         addingSub = new PriorityQueue<>();
         sub = nextTickSub;
         tickCount++;
+
         return tickCount;
     }
 
     public int getTick() {
-        return this.tickCount;
+        return tickCount;
     }
 
     public String getId() {
@@ -194,6 +201,10 @@ public class Game {
 
     public int getCollectedTreasureCount() {
         return player.getCollectedTreasureCount();
+    }
+
+    public int getCollectedSunStoneCount() {
+        return player.getCollectedSunStoneCount();
     }
 
     public Player getPlayer() {
