@@ -225,4 +225,58 @@ public class SunStoneTest {
         assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
     }
 
+    @Test
+    @DisplayName("Test building Midnight Armour")
+    public void buildMidnightArmour() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildMidnightArmour", "c_sunStoneTest_buildMidnightArmour");
+
+        // in the map there is 1 sun stone and 1 sword
+        assertEquals(1, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(1, TestUtils.getEntities(res, "sword").size());
+
+        // in the inventory there is nothing yet
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(0, TestUtils.getInventory(res, "sword").size());
+
+        // move player to right (collects sun stone 1)
+        res = dmc.tick(Direction.RIGHT);
+
+        // move player to right (collects sword)
+        res = dmc.tick(Direction.RIGHT);
+
+        // build midnight armour
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+        assertEquals(1, TestUtils.getInventory(res, "midnight_armour").size());
+    }
+
+    @Test
+    @DisplayName("Test building Sceptre using 3 sun stone")
+    public void applyBuffMidnightArmour() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildMidnightArmour", "c_sunStoneTest_buildMidnightArmour");
+
+        // in the map there is 1 sun stone and 1 sword
+        assertEquals(1, TestUtils.getEntities(res, "sun_stone").size());
+        assertEquals(1, TestUtils.getEntities(res, "sword").size());
+
+        // in the inventory there is nothing yet
+        assertEquals(0, TestUtils.getInventory(res, "sun_stone").size());
+        assertEquals(0, TestUtils.getInventory(res, "sword").size());
+
+        // move player to right (collects sun stone 1)
+        res = dmc.tick(Direction.RIGHT);
+
+        // move player to right (collects sword)
+        res = dmc.tick(Direction.RIGHT);
+
+        // build midnight armour
+        assertEquals(0, TestUtils.getInventory(res, "midnight_armour").size());
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+        assertEquals(1, TestUtils.getInventory(res, "midnight_armour").size());
+    }
+
 }

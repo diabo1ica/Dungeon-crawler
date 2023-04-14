@@ -79,7 +79,6 @@ public class DungeonManiaController {
     */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));
-
     }
 
     /**
