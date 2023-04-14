@@ -55,9 +55,9 @@ public class Door extends Entity implements OverlapBehaviour {
     private boolean hasSunStone(Player player) {
         System.out.println("does the player has sunstone");
         Inventory inventory = player.getInventory();
-        SunStone sun_stone = inventory.getFirst(SunStone.class);
+        SunStone sunStone = inventory.getFirst(SunStone.class);
 
-        return (sun_stone != null);
+        return (sunStone != null);
     }
 
     public boolean isOpen() {
