@@ -34,3 +34,9 @@ also changed in Door.java --> canMoveOnto if has SunStone or Key
 10. Door.java --> if sunstone is used to open door, sunstone is not being used
 11. GameMap.java --> triggerOverlapEvent
 */
+
+/*
+More buildables:
+1. Craft.java --> added spectre into of the rhe recipeList
+
+*/

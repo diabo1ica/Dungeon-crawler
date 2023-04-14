@@ -73,6 +73,7 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
     }
 
     public boolean build(String entity, EntityFactory factory) {
+        System.out.println("cekbuild");
         InventoryItem item = inventory.checkBuildCriteria(this, entity, factory);
         if (item == null) return false;
         return inventory.add(item);
@@ -109,7 +110,6 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
         if (item instanceof SunStone) {
             collectedSunStoneCount++;
         }
-        System.out.println("The picked up item is " + item.getClass());
         return inventory.add((InventoryItem) item);
     }
 

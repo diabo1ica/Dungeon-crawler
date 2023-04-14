@@ -6,6 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Treasure;
+import dungeonmania.entities.buildables.*;
 
 import dungeonmania.entities.enemies.MovementStrategy.Movement;
 import dungeonmania.map.GameMap;
@@ -21,6 +22,8 @@ public class Mercenary extends Enemy implements Interactable {
 
     private int bribeAmount = Mercenary.DEFAULT_BRIBE_AMOUNT;
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
+
+    private int mind_being_controlled_duration = 0;
 
     private double allyAttack;
     private double allyDefence;
@@ -66,6 +69,10 @@ public class Mercenary extends Enemy implements Interactable {
         return bribeRadius >= 0 && player.countEntityOfType(Treasure.class) >= bribeAmount;
     }
 
+    private boolean canBeMindControlled(Player player) {
+        return player.countEntityOfType(Sceptre.class) > 0;
+    }
+
     /**
      * bribe the merc
      */
@@ -73,25 +80,31 @@ public class Mercenary extends Enemy implements Interactable {
         for (int i = 0; i < bribeAmount; i++) {
             player.use(Treasure.class);
         }
-
     }
 
     @Override
     public void interact(Player player, Game game) {
-        allied = true;
-        bribe(player);
-        if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), getPosition()))
+        if (canBeMindControlled(player)) {
+            allied = true;
+            mind_being_controlled_duration = 2;
+        } else {
+            allied = true;
+            bribe(player);
+            if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), getPosition()))
             isAdjacentToPlayer = true;
     }
+
+}
 
     @Override
     public void move(Game game) {
         movement.move(game.getMap(), this);
     }
 
+    // change is interactab
     @Override
     public boolean isInteractable(Player player) {
-        return !allied && canBeBribed(player);
+        return (!allied && canBeBribed(player) || canBeMindControlled(player));
     }
 
     @Override

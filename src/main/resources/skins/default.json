@@ -44,7 +44,6 @@
         "zombie_toast": "images/tileset/entities/zombie.png",
         "boulders": "images/tileset/entities/boulder_00.png",
         "enemies": "images/tileset/items/sword_silver.png",
-        "time_turner": "images/tileset/entities/time_turner.png",
         "sun_stone": "images/tileset/entities/sun_stone.png"
     }
 }

@@ -6,17 +6,22 @@
             "y": 1
         },
         {
-            "type": "treasure",
+            "type": "sun_stone",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "type": "arrow",
             "x": 3,
             "y": 1
         },
         {
-            "type": "treasure",
+            "type": "arrow",
             "x": 4,
             "y": 1
         },
         {
-            "type": "sun_stone",
+            "type": "treasure",
             "x": 5,
             "y": 1
         },

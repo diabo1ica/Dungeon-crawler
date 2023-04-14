@@ -88,10 +88,14 @@ public class Game implements Serializable {
     }
 
     public Game build(String buildable) throws InvalidActionException {
+        System.out.println(buildable);
         List<String> buildables = player.getBuildables();
+        System.out.println(buildables); //
+        System.out.println(buildables.contains(buildable));
         if (!buildables.contains(buildable)) {
             throw new InvalidActionException(String.format("%s cannot be built", buildable));
         }
+
         registerOnce(() -> player.build(buildable, entityFactory), PLAYER_MOVEMENT, "playerBuildsItem");
         tick();
         return this;

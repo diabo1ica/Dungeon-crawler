@@ -90,21 +90,21 @@ public class SunStoneTest {
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
-        // collect treasure
+        // collect treasure 1
         res = dmc.tick(Direction.RIGHT);
         assertEquals(1, TestUtils.getInventory(res, "treasure").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
-        // collect treasure
+        // collect treasure 2
         res = dmc.tick(Direction.RIGHT);
         assertEquals(2, TestUtils.getInventory(res, "treasure").size());
 
         // assert goal not met
         assertTrue(TestUtils.getGoals(res).contains(":treasure"));
 
-        // collect treasure
+        // collect sun stone
         res = dmc.tick(Direction.RIGHT);
         assertEquals(2, TestUtils.getInventory(res, "treasure").size());
         assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
@@ -112,4 +112,117 @@ public class SunStoneTest {
         // assert goal met
         assertEquals("", TestUtils.getGoals(res));
     }
+
+    @Test
+    @DisplayName("Test building Sceptre using 1 sun stone, 1 wood, and 1 treasure")
+    public void buildSpectre1() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildSceptre", "c_sunStoneTest_buildSceptre");
+
+        // move player to right (collects sun stone)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects wood)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "wood").size());
+
+        // move player to right (collects treasure)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+
+        // build sceptre
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    }
+
+    @Test
+    @DisplayName("Test building Sceptre using 1 sun stone, 2 arrows, and 1 treasure")
+    public void buildSpectre2() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildSceptre2", "c_sunStoneTest_buildSceptre");
+
+        // move player to right (collects sun stone)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects arrow 1)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "arrow").size());
+
+        // move player to right (collects arrow 2)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "arrow").size());
+
+        // move player to right (collects treasure)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+
+        // build sceptre
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+    }
+
+    @Test
+    @DisplayName("Test building Sceptre using 2 sun stones and 1 wood")
+    public void buildSpectre3() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildSceptre3", "c_sunStoneTest_buildSceptre");
+
+        // move player to right (collects sun stone 1)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects sun stone 2)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects wood)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "wood").size());
+
+        // build sceptre
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+
+        // one sun stone is used up as per requirement to build sceptre
+        // the other sun stone still remains inside inventory (replacing other ingredient)
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    @Test
+    @DisplayName("Test building Sceptre using 3 sun stone")
+    public void buildSpectre4() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_buildSceptre4", "c_sunStoneTest_buildSceptre");
+
+        // move player to right (collects sun stone 1)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(1, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects sun stone 2)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+
+        // move player to right (collects wood)
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(3, TestUtils.getInventory(res, "sun_stone").size());
+
+        // build sceptre
+        assertEquals(0, TestUtils.getInventory(res, "sceptre").size());
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertEquals(1, TestUtils.getInventory(res, "sceptre").size());
+
+        // one sun stone is used up as per requirement to build sceptre
+        // the other sun stone still remains inside inventory (replacing other ingredient)
+        assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
 }

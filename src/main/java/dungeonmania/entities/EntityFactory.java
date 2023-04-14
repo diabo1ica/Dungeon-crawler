@@ -2,6 +2,7 @@ package dungeonmania.entities;
 
 import dungeonmania.Game;
 import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.entities.buildables.Shield;
 import dungeonmania.entities.collectables.*;
 import dungeonmania.entities.enemies.*;
@@ -10,7 +11,6 @@ import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.util.Position;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
-public class EntityFactory implements Serializable {
+public class EntityFactory {
     private JSONObject config;
     private Random ranGen = new Random();
 
@@ -123,10 +123,12 @@ public class EntityFactory implements Serializable {
         return new Shield(shieldDurability, shieldDefence);
     }
 
-    // public Sceptre buildSceptre() {
-    //     // int bowDurability = config.optInt("bow_durability");
-    //     return new Bow(bowDurability);
-    // }
+    public Sceptre buildSceptre() {
+        // int bowDurability = config.optInt("bow_durability");
+        int mindControlDuration = config.optInt("mind_control_duration");
+        System.out.println("spectre is being build");
+        return new Sceptre(mindControlDuration);
+    }
 
     private Entity constructEntity(JSONObject jsonEntity, JSONObject config) {
         Position pos = new Position(jsonEntity.getInt("x"), jsonEntity.getInt("y"));
