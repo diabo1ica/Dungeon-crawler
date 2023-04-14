@@ -267,13 +267,14 @@ public class SunStoneTest {
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
         assertEquals(0, TestUtils.getEntities(res, "player").size());
 
         // Create new game this time battle with armor assert player win
         res = dmc.newGame("d_sunStoneTest_midnight_buff", config);
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
-        res = assertDoesNotThrow(() -> dmc.build("midnight_armor"));
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
 
         res = dmc.tick(Direction.RIGHT);
         assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
