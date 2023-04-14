@@ -49,9 +49,9 @@ public class SceptreRecipe implements Recipe {
         List<Arrow> arrows = getItemsInInventory(Arrow.class, items);
         List<Treasure> treasure = getItemsInInventory(Treasure.class, items);
         List<Key> keys = getItemsInInventory(Key.class, items);
-        List<SunStone> sun_stone = getItemsInInventory(SunStone.class, items);
+        List<SunStone> sunStone = getItemsInInventory(SunStone.class, items);
 
-        if (sun_stone.size() == 1) {
+        if (sunStone.size() == 1) {
             // (1 WOOD or 2 ARROWS) && (1 KEY or 1 TREASURE)
             if (woods.size() == 1) {
                 items.remove(woods.get(0));
@@ -65,8 +65,8 @@ public class SceptreRecipe implements Recipe {
             } else {
                 items.remove(treasure.get(0));
             }
-            items.remove(sun_stone.get(0));
-        } else if (sun_stone.size() == 2) {
+            items.remove(sunStone.get(0));
+        } else if (sunStone.size() == 2) {
             // (1 WOOD or 2 ARROWS) || (1 KEY or 1 TREASURE)
             System.out.println("nehimomo");
             if (woods.size() == 1 || arrows.size() == 2) {
@@ -83,9 +83,9 @@ public class SceptreRecipe implements Recipe {
                     items.remove(treasure.get(0));
                 }
             }
-            items.remove(sun_stone.get(0));
-        } else if (sun_stone.size() > 2) {
-            items.remove(sun_stone.get(0));
+            items.remove(sunStone.get(0));
+        } else if (sunStone.size() > 2) {
+            items.remove(sunStone.get(0));
         }
         return items;
     }

@@ -16,8 +16,7 @@
             "y" : 3
         },
         {
-            "type" : "light_bulb_off",
-            "logic" : "or",
+            "type" : "switch",
             "x" : 2,
             "y" : 3
         },

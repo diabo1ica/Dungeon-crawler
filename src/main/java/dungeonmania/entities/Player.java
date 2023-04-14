@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.Battleable;
+import dungeonmania.entities.buildables.MidnightArmour;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.SunStone;
@@ -68,14 +69,20 @@ public class Player extends Entity implements Battleable, OverlapBehaviour {
         return inventory.getEntities(BattleItem.class);
     }
 
-    public List<String> getBuildables() {
-        return inventory.getBuildables();
+    public List<String> getBuildables(GameMap map) {
+        return inventory.getBuildables(map);
     }
 
     public boolean build(String entity, EntityFactory factory) {
-        System.out.println("cekbuild");
         InventoryItem item = inventory.checkBuildCriteria(this, entity, factory);
         if (item == null) return false;
+
+        // if inventory contains midnight_armour then
+        if (item instanceof MidnightArmour) {
+            MidnightArmour itemMidnightArmour = (MidnightArmour) item;
+            this.battleStatistics = BattleStatistics.applyBuff(getBattleStatistics(), new BattleStatistics(0,
+                    itemMidnightArmour.getAttackBuff(), itemMidnightArmour.getDefenceBuff(), 1, 1));
+        }
         return inventory.add(item);
     }
 

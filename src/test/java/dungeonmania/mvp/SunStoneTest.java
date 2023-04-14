@@ -2,6 +2,8 @@ package dungeonmania.mvp;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.response.models.DungeonResponse;
+// import dungeonmania.response.models.BattleResponse;
+// import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -79,7 +81,7 @@ public class SunStoneTest {
 
     @Test
     @DisplayName("Test Sun Stone contributes to Treasure goal")
-    public void SunStoneTreasureGoal() {
+    public void sunStoneTreasureGoal() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_sunStoneTest_treasureGoal", "c_sunStoneTest_treasureGoal");
@@ -223,6 +225,59 @@ public class SunStoneTest {
         // one sun stone is used up as per requirement to build sceptre
         // the other sun stone still remains inside inventory (replacing other ingredient)
         assertEquals(2, TestUtils.getInventory(res, "sun_stone").size());
+    }
+
+    @Test
+    @DisplayName("Test Mind control duration")
+    public void mindControl() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_use_scepter",
+        "c_sunStoneTest_use_scepter");
+
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = assertDoesNotThrow(() -> dmc.build("sceptre"));
+
+        // Mind control merc
+        String mercId = TestUtils.getEntities(res, "mercenary").get(0).getId();
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+
+        // Player move to merc assert not battle
+        Position playerPos = TestUtils.getEntities(res, "player").get(0).getPosition();
+        Position mercPos = TestUtils.getEntities(res, "mercenary").get(0).getPosition();
+        res = dmc.tick(Direction.RIGHT);
+        // Player and merc switch position
+        assertEquals(mercPos, TestUtils.getEntities(res, "player").get(0).getPosition());
+        assertEquals(playerPos, TestUtils.getEntities(res, "mercenary").get(0).getPosition());
+
+        // Mind control duration up, player and merc battle on next tick
+        res = dmc.tick(Direction.LEFT);
+        assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
+    }
+
+    @Test
+    @DisplayName("Test Midnight armor buff")
+    public void midnightBuff() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        String config = "c_sunStoneTest_midnight_buff";
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_midnight_no_buff", config);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "player").size());
+
+        // Create new game this time battle with armor assert player win
+        res = dmc.newGame("d_sunStoneTest_midnight_buff", config);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armour"));
+
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
     }
 
 }
