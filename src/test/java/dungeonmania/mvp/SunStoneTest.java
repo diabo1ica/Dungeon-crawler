@@ -257,30 +257,26 @@ public class SunStoneTest {
         assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
     }
 
-    // @Test
-    // @DisplayName("Test Midnight armor buff")
-    // public void midnightBuff() {
-    //     DungeonManiaController dmc;
-    //     // This config sets the player at health 1 and attack 1
-    //     // Midnight armor provides atk and defense buff 999
-    //     // Battle without armor = player loss
-    //     dmc = new DungeonManiaController();
-    //     String config = "c_sunStoneTest_midnight_buff";
-    //     DungeonResponse res = dmc.newGame("d_sunStoneTest_midnight_no_buff",
-    //     config);
-    //     res = dmc.tick(Direction.RIGHT);
-    //     res = dmc.tick(Direction.RIGHT);
-    //     res = dmc.tick(Direction.RIGHT);
-    //     assertEquals(0, TestUtils.getEntities(res, "player").size());
+    @Test
+    @DisplayName("Test Midnight armor buff")
+    public void midnightBuff() {
+        DungeonManiaController dmc;
+        dmc = new DungeonManiaController();
+        String config = "c_sunStoneTest_midnight_buff";
+        DungeonResponse res = dmc.newGame("d_sunStoneTest_midnight_no_buff", config);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "player").size());
 
-    //     // Create new game this time battle with armor assert player win
-    //     res = dmc.newGame("d_sunStoneTest_midnight_buff", config);
-    //     res = dmc.tick(Direction.RIGHT);
-    //     res = dmc.tick(Direction.RIGHT);
-    //     res = assertDoesNotThrow(() -> dmc.build("midnight_armor"));
+        // Create new game this time battle with armor assert player win
+        res = dmc.newGame("d_sunStoneTest_midnight_buff", config);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = assertDoesNotThrow(() -> dmc.build("midnight_armor"));
 
-    //     res = dmc.tick(Direction.RIGHT);
-    //     assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
-    // }
+        res = dmc.tick(Direction.RIGHT);
+        assertEquals(0, TestUtils.getEntities(res, "mercenary").size());
+    }
 
 }
