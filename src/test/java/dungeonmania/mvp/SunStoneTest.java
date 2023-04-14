@@ -79,7 +79,7 @@ public class SunStoneTest {
 
     @Test
     @DisplayName("Test Sun Stone contributes to Treasure goal")
-    public void SunStoneTreasureGoal() {
+    public void sunStoneTreasureGoal() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_sunStoneTest_treasureGoal", "c_sunStoneTest_treasureGoal");
@@ -237,11 +237,11 @@ public class SunStoneTest {
         res = dmc.tick(Direction.RIGHT);
         res = dmc.tick(Direction.RIGHT);
         res = assertDoesNotThrow(() -> dmc.build("sceptre"));
-        
+
         // Mind control merc
         String mercId = TestUtils.getEntities(res, "mercenary").get(0).getId();
         res = assertDoesNotThrow(() -> dmc.interact(mercId));
-        
+
         // Player move to merc assert not battle
         Position playerPos = TestUtils.getEntities(res, "player").get(0).getPosition();
         Position mercPos = TestUtils.getEntities(res, "mercenary").get(0).getPosition();
