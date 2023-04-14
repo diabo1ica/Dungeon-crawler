@@ -99,8 +99,12 @@ public class Mercenary extends Enemy implements Interactable {
     @Override
     public void move(Game game) {
         movement.move(game.getMap(), this);
+        // every time the mercenary moves (meanign 1 tick is consumed)
+        // update the mind_being_controlled_duration accordinglysß
+        if (mind_being_controlled_duration > 0) {
+            mind_being_controlled_duration--;
+        }
     }
-
     // change is interactab
     @Override
     public boolean isInteractable(Player player) {
